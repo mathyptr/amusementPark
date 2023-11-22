@@ -1,9 +1,13 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import db.*;
+import db.dbManager;
+
 import util.MessagesBundle;
 
 /**
@@ -12,13 +16,19 @@ import util.MessagesBundle;
  */
 public class Main 
 {
+	private static final Logger logger = LogManager.getLogger("Main.class");
     public static void main( String[] args )
     {
-    	final Logger logger = LogManager.getLogger("MyLog");
-    	
+        dbManager.setDatabase("amusepark.db");
+        try {
+        	dbManager.getConnection();
+        } catch (SQLException e) {
+    		logger.error(e.getMessage());            
+        }
+        
+        
      	MessagesBundle msgB= new MessagesBundle();
-		msgB.SetLanguage("en", "US");
-		System.out.println(MessagesBundle.GetResourceValue("welcome_messages"));
-		logger.info(MessagesBundle.GetResourceValue("welcome_messages") + new Date());
+		msgB.SetLanguage("en", "US");	
+		logger.info(MessagesBundle.GetResourceValue("welcome_messages"));
     }
 }
