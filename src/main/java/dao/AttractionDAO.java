@@ -12,4 +12,8 @@ public interface AttractionDAO extends DAO<Attraction, Integer> {
     public void addBooking(String fiscalCode, Integer attractionId) throws Exception;
 
     public boolean deleteBooking(String fiscalCode, Integer attractionId) throws Exception;
+
+	Attraction get(Integer id) throws Exception;//MATHY
+
+	List<Attraction> getAll() throws Exception;//MATHY
 }

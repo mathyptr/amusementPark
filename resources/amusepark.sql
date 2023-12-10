@@ -57,3 +57,6 @@ CREATE TABLE IF NOT EXISTS bookings
     hourbook     TEXT    NOT NULL,
     FOREIGN KEY (customer) REFERENCES customers (fiscal_code) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+insert into employees values (1,'PTRMTH','Mathilde','PAT',10000);
+insert into attractions values (1,'Starlight',100,'01/01/2023','31/12/2023',1);

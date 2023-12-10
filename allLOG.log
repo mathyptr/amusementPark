@@ -18,3 +18,25 @@
 18:53:04.858 [main] INFO  Main.class - Welcome to a Muse ment Park!
 18:53:12.429 [main] INFO  Main.class - Welcome to a Muse ment Park!
 17:12:43.636 [main] INFO  Main.class - Welcome to a Muse ment Park!
+19:45:29.299 [main] INFO  Main.class - Welcome to a Muse ment Park!
+19:54:52.600 [main] INFO  Main.class - Welcome to a Muse ment Park!
+19:58:22.719 [main] INFO  Main.class - 0
+19:58:22.725 [main] INFO  Main.class - Welcome to a Muse ment Park!
+20:03:31.325 [main] INFO  Main.class - n attraction: 0
+20:03:31.331 [main] INFO  Main.class - Welcome to a Muse ment Park!
+20:29:16.870 [main] ERROR Main.class - [SQLITE_ERROR] SQL error or missing database (no such table: attractions)
+20:29:16.874 [main] INFO  Main.class - n attraction: 0
+20:29:16.876 [main] INFO  Main.class - Welcome to a Muse ment Park!
+20:35:39.904 [main] ERROR Main.class - [SQLITE_ERROR] SQL error or missing database (no such table: attractions)
+20:35:39.908 [main] INFO  Main.class - n attraction: 0
+20:35:39.910 [main] INFO  Main.class - Welcome to a Muse ment Park!
+20:35:56.595 [main] ERROR Main.class - [SQLITE_ERROR] SQL error or missing database (no such table: attractions)
+20:35:56.599 [main] INFO  Main.class - n attraction: 0
+20:35:56.602 [main] INFO  Main.class - Welcome to a Muse ment Park!
+20:37:34.983 [main] ERROR Main.class - [SQLITE_ERROR] SQL error or missing database (no such table: attractions)
+20:37:34.990 [main] INFO  Main.class - n attraction: 0
+20:37:34.994 [main] INFO  Main.class - Welcome to a Muse ment Park!
+20:38:25.781 [main] INFO  Main.class - n attraction: 0
+20:38:25.787 [main] INFO  Main.class - Welcome to a Muse ment Park!
+20:40:40.096 [main] INFO  Main.class - n attraction: 2
+20:40:40.103 [main] INFO  Main.class - Welcome to a Muse ment Park!
