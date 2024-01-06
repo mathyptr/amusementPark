@@ -1,6 +1,6 @@
 #ignore all .log file
-.log
+*.log
 #ignore all .class file
-.class
+*.class
 #ignore target directory
-target/
+/target/
