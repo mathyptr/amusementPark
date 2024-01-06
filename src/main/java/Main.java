@@ -7,7 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dao.AttractionDAO;
-
+import dao.MembershipDAO;
+import dao.SqlMembershipDAO;
 import dao.SqlAttractionDAO;
 import db.dbManager;
 
@@ -28,6 +29,8 @@ public class Main
         } catch (SQLException e) {
     		logger.error(e.getMessage());            
         }
+
+        MembershipDAO membershipDAO = new SqlMembershipDAO();
         
         AttractionDAO attractionDAO = new SqlAttractionDAO();
         int nattraction=0;
