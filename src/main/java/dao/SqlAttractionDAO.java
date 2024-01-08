@@ -96,7 +96,7 @@ public class SqlAttractionDAO implements AttractionDAO {
     }*/
 
     @Override
-    public List<Attraction> getCoursesForCustomer(String fiscalCode) throws Exception {
+    public List<Attraction> getAttractionsForCustomer(String fiscalCode) throws Exception {
 
         List<Attraction> attractions = new ArrayList<>();
         return attractions;
