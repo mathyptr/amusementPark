@@ -7,9 +7,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dao.AttractionDAO;
+import dao.CustomerDAO;
 import dao.MembershipDAO;
 import dao.SqlMembershipDAO;
 import dao.SqlAttractionDAO;
+import dao.SqlCustomerDAO;
 import db.dbManager;
 
 import util.MessagesBundle;
@@ -33,6 +35,10 @@ public class Main
         MembershipDAO membershipDAO = new SqlMembershipDAO();
         
         AttractionDAO attractionDAO = new SqlAttractionDAO();
+        
+        CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
+        
+        
         int nattraction=0;
         try {
         	nattraction=attractionDAO.getNextID();
