@@ -15,10 +15,10 @@ public class SqlAttractionDAO implements AttractionDAO {
     }
 
 //    @Override
-    public Attraction get(Integer id) throws Exception {
+    public Attraction get(Integer id) throws SQLException {
         Connection connection = dbManager.getConnection();
         Attraction course = null;
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM courses WHERE id = ?");
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM attractions WHERE id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
@@ -40,11 +40,11 @@ public class SqlAttractionDAO implements AttractionDAO {
     }
 
 //    @Override
-    public List<Attraction> getAll() throws Exception {
+    public List<Attraction> getAll() throws SQLException {
         Connection connection =dbManager.getConnection();
         List<Attraction> attractions = new ArrayList<>();
         Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM courses");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM attractions");
 
         while (rs.next()) {
         	Attraction c = new Attraction(
@@ -73,7 +73,7 @@ public class SqlAttractionDAO implements AttractionDAO {
     }
 
     @Override
-    public boolean delete(Integer id) throws Exception {
+    public boolean delete(Integer id) throws SQLException {
 
         return true;
     }
