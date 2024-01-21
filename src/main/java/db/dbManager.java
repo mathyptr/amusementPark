@@ -15,13 +15,13 @@ public class dbManager {
     // Private constructor (Singleton pattern)
     private dbManager() {}
     
-/*    public static dbManager getInstance() {
+    public static dbManager getInstance() {
         // Create the object only if there's not an istance:
         if (instance == null) {
             instance = new dbManager();
         }
         return instance;
-    }*/
+    }
     
     /**
      * Set the name of the database

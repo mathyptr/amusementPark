@@ -38,8 +38,8 @@ public class SqlAttractionDAOTest {
         connection.prepareStatement("DELETE FROM attractions").executeUpdate();
         
         // Insert some test data
-        connection.prepareStatement("INSERT INTO attractions (1,'Starlight',50, '01/01/2023','31/12/2023') ").executeUpdate();
-        connection.prepareStatement("INSERT INTO attractions (2,'Madness',60,'01/02/2023','01/11/2023')").executeUpdate();
+        connection.prepareStatement("INSERT INTO attractions values (1,'Starlight',50, '01/01/2023','31/12/2023','PTRMTH') ").executeUpdate();
+        connection.prepareStatement("INSERT INTO attractions values (2,'Madness',60,'01/02/2023','01/11/2023','PTRMTH')").executeUpdate();
     }
 
     @Test
