@@ -12,13 +12,13 @@ public class Attraction {
     private final int maxCapacity;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
-
+    private final String employeeFiscalCode;
 //MATHY   un'attrazione ha anche l'addetto: dobbiamo implementare la classe Employee 
 //    private final Employee employee;  
     
-    public Attraction(int id, String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate) {
+    public Attraction(int id, String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode) {
 // MATHY   dobbiamo passare anche l'oggetto Employee
-//        this.employee = employee;
+        this.employeeFiscalCode = employeeFiscalCode;
     	
     	this.name = name;
         this.maxCapacity = maxCapacity;
@@ -60,10 +60,10 @@ public class Attraction {
     public LocalDateTime getEndDate() {
         return endDate;
     }
-//MATHY Realizziamo anche un metodo che ritorna l'addetto assegnato all'attrazione
-/*    public Employee getEmployee() {
-        return employee;
-    }*/
+//MATHY Realizziamo anche un metodo che ritorna il Codice Fiscale dell'addetto assegnato all'attrazione
+    public String getEmployeeFiscalCode() {
+        return employeeFiscalCode;
+    }
   //MATHY Realizziamo anche un metodo che associa l'addetto assegnato all'attrazione
     /*    public  setEmployee(Employee employee) {
 		this.employee = employee;

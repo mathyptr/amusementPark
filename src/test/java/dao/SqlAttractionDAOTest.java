@@ -38,8 +38,8 @@ public class SqlAttractionDAOTest {
         connection.prepareStatement("DELETE FROM attractions").executeUpdate();
         
         // Insert some test data
-        connection.prepareStatement("INSERT INTO attractions values (1,'Starlight',50, '01/01/2023','31/12/2023','PTRMTH') ").executeUpdate();
-        connection.prepareStatement("INSERT INTO attractions values (2,'Madness',60,'01/02/2023','01/11/2023','PTRMTH')").executeUpdate();
+        connection.prepareStatement("INSERT INTO attractions values (1,'Starlight',50, '01/01/2023 08:00','31/12/2023 18:00','PTRMTH') ").executeUpdate();
+        connection.prepareStatement("INSERT INTO attractions values (2,'Madness',60,'01/02/2023 08:00','01/11/2023 18:00','PTRMTH')").executeUpdate();
     }
 
     @Test
@@ -64,14 +64,14 @@ public class SqlAttractionDAOTest {
 
     @Test
     public void When_AddAttraction_Expect_Success() throws SQLException {
-    	Attraction attraction = new Attraction(3,"Blackout",100,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4) );
+    	Attraction attraction = new Attraction(3,"Blackout",100,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4),"PTRMTH");
         Assertions.assertDoesNotThrow(() -> attractionDAO.insert(attraction));
         Assertions.assertEquals(3, attractionDAO.getAll().size());
     }
 
     @Test
     public void When_UpdateAttraction_Expect_Success() throws SQLException {
-    	Attraction attraction = new Attraction(3,"Hysteria",90,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4) );
+    	Attraction attraction = new Attraction(3,"Hysteria",90,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4),"PTRMTH");
     	Assertions.assertDoesNotThrow(() -> attractionDAO.update(attraction));
         Assertions.assertEquals(3, attractionDAO.getAll().size());
         Assertions.assertEquals("Hysteria", attractionDAO.get(3).getName());

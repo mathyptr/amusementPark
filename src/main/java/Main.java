@@ -1,7 +1,11 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,8 +41,21 @@ public class Main
         AttractionDAO attractionDAO = new SqlAttractionDAO();
         
         CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
-        
-        
+
+/*
+        String s;
+        DateTimeFormatter df1 = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);        
+        LocalDate date = LocalDate.parse("01/11/2023", df1);
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm", Locale.ITALIAN);
+        LocalDateTime dateTime = LocalDateTime.parse("01/11/2023 00:00", df);
+*/
+
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String caseStartDate = dateFormat.format(LocalDateTime.now());
+        System.out.println(caseStartDate);
+        LocalDateTime localdatetime = LocalDateTime.parse(caseStartDate, dateFormat);
+        System.out.println(localdatetime);
+        		
         int nattraction=0;
         try {
         	nattraction=attractionDAO.getNextID();

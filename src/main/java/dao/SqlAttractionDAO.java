@@ -6,6 +6,7 @@ import domainModel.Attraction;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class SqlAttractionDAO implements AttractionDAO {
                     rs.getString("name"),
                     rs.getInt("max_capacity"),
                     LocalDateTime.parse(rs.getString("start_date")),
-                    LocalDateTime.parse(rs.getString("end_date"))
+                    LocalDateTime.parse(rs.getString("end_date")),
+                    rs.getString("employee")
                     );            		            
         }
 
@@ -46,13 +48,17 @@ public class SqlAttractionDAO implements AttractionDAO {
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM attractions");
 
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+//        LocalDateTime dateTime = LocalDateTime.parse("01/11/2023 00:00", df);
+
         while (rs.next()) {
         	Attraction c = new Attraction(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getInt("max_capacity"),
-                    LocalDateTime.parse(rs.getString("start_date")),
-                    LocalDateTime.parse(rs.getString("end_date"))
+                    LocalDateTime.parse(rs.getString("start_date"),df),
+                    LocalDateTime.parse(rs.getString("end_date"),df),
+                    rs.getString("employee")                    
         		);        			
            
         		attractions.add(c);
