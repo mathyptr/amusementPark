@@ -59,4 +59,4 @@ CREATE TABLE IF NOT EXISTS bookings
 );
 
 insert into employees values ('PTRMTH','Mathilde','PAT',10000);
-insert into attractions values (1,'Starlight',100,'01/01/2023','31/12/2023',1);
+insert into attractions values (1,'Starlight',100,'01-01-2023','31-12-2023',1);

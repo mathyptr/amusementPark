@@ -3,7 +3,6 @@ package dao;
 import db.dbManager;
 import domainModel.Attraction;
 
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,24 +11,28 @@ import java.util.List;
 
 public class SqlAttractionDAO implements AttractionDAO {
 
-    public SqlAttractionDAO() {
+    private static final String TimeFormat = "dd/MM/yyyy HH:mm";
+    DateTimeFormatter dataTimeFormat = DateTimeFormatter.ofPattern(TimeFormat);
+	public SqlAttractionDAO() {
     }
 
 //    @Override
     public Attraction get(Integer id) throws SQLException {
         Connection connection = dbManager.getConnection();
-        Attraction course = null;
+        Attraction attract = null;
+        
+//        DateTimeFormatter df = DateTimeFormatter.ofPattern(TimeFormat);        
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM attractions WHERE id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            course = new Attraction(
+            attract = new Attraction(
                     id,
                     rs.getString("name"),
                     rs.getInt("max_capacity"),
-                    LocalDateTime.parse(rs.getString("start_date")),
-                    LocalDateTime.parse(rs.getString("end_date")),
+                    LocalDateTime.parse(rs.getString("start_date"),dataTimeFormat),
+                    LocalDateTime.parse(rs.getString("end_date"),dataTimeFormat),
                     rs.getString("employee")
                     );            		            
         }
@@ -38,7 +41,7 @@ public class SqlAttractionDAO implements AttractionDAO {
         ps.close();
 
         dbManager.closeConnection(connection);
-        return course;
+        return attract;
     }
 
 //    @Override
@@ -46,18 +49,18 @@ public class SqlAttractionDAO implements AttractionDAO {
         Connection connection =dbManager.getConnection();
         List<Attraction> attractions = new ArrayList<>();
         Statement stmt = connection.createStatement();
+        
+//        DateTimeFormatter df = DateTimeFormatter.ofPattern(TimeFormat);
+        
         ResultSet rs = stmt.executeQuery("SELECT * FROM attractions");
-
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-//        LocalDateTime dateTime = LocalDateTime.parse("01/11/2023 00:00", df);
 
         while (rs.next()) {
         	Attraction c = new Attraction(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getInt("max_capacity"),
-                    LocalDateTime.parse(rs.getString("start_date"),df),
-                    LocalDateTime.parse(rs.getString("end_date"),df),
+                    LocalDateTime.parse(rs.getString("start_date"),dataTimeFormat),
+                    LocalDateTime.parse(rs.getString("end_date"),dataTimeFormat),
                     rs.getString("employee")                    
         		);        			
            
@@ -72,16 +75,52 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public void insert(Attraction attraction) throws SQLException {
+
+        Connection connection = dbManager.getConnection();
+        
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO attractions (name, max_capacity, start_date, end_date, employee) VALUES (?, ?, ?, ?, ?)");
+        // id is auto-incremented, so it's not needed
+        ps.setString(1, attraction.getName());
+        ps.setInt(2, attraction.getMaxCapacity());
+        ps.setString(3, dataTimeFormat.format(attraction.getStartDate()));
+        ps.setString(4, dataTimeFormat.format(attraction.getEndDate()));
+        ps.setString(5, attraction.getEmployeeFiscalCode());
+        ps.executeUpdate();
+
+        ps.close();
+        dbManager.closeConnection(connection);
+      	
     }
 
     @Override
     public void update(Attraction attraction) throws SQLException {
+        Connection connection = dbManager.getConnection();
+        PreparedStatement ps = connection.prepareStatement("UPDATE attractions SET name = ?, max_capacity = ?, start_date = ?, end_date = ?, employee = ? WHERE id = ?");
+        ps.setString(1, attraction.getName());
+        ps.setInt(2, attraction.getMaxCapacity());
+        ps.setString(3, dataTimeFormat.format(attraction.getStartDate()));
+        ps.setString(4, dataTimeFormat.format(attraction.getEndDate()));
+        ps.setString(5, attraction.getEmployeeFiscalCode());
+        ps.setInt(6, attraction.getId());
+        ps.executeUpdate();
+
+        ps.close();
+        dbManager.closeConnection(connection);    	
     }
 
     @Override
     public boolean delete(Integer id) throws SQLException {
+    	Attraction attraction = get(id);
+        if (attraction == null) return false;
 
-        return true;
+        Connection connection = dbManager.getConnection();
+        PreparedStatement ps = connection.prepareStatement("DELETE FROM attractions WHERE id = ?");
+        ps.setInt(1, id);
+        int rows = ps.executeUpdate();
+
+        ps.close();
+        dbManager.closeConnection(connection);
+        return rows > 0;
     }
 
     @Override

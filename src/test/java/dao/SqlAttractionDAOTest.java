@@ -64,29 +64,32 @@ public class SqlAttractionDAOTest {
 
     @Test
     public void When_AddAttraction_Expect_Success() throws SQLException {
-    	Attraction attraction = new Attraction(3,"Blackout",100,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4),"PTRMTH");
+    	LocalDateTime start_date,end_date; 	
+    	start_date=LocalDateTime.now().plusMonths(1) ;
+    	end_date=LocalDateTime.now().plusMonths(4);
+    	Attraction attraction = new Attraction(3,"Blackout",100,start_date,end_date,"PTRMTH");
         Assertions.assertDoesNotThrow(() -> attractionDAO.insert(attraction));
         Assertions.assertEquals(3, attractionDAO.getAll().size());
     }
 
     @Test
     public void When_UpdateAttraction_Expect_Success() throws SQLException {
-    	Attraction attraction = new Attraction(3,"Hysteria",90,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4),"PTRMTH");
+    	Attraction attraction = new Attraction(2,"Hysteria",90,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4),"PTRMTH");
     	Assertions.assertDoesNotThrow(() -> attractionDAO.update(attraction));
-        Assertions.assertEquals(3, attractionDAO.getAll().size());
-        Assertions.assertEquals("Hysteria", attractionDAO.get(3).getName());
-        Assertions.assertEquals(90, attractionDAO.get(1).getMaxCapacity());
+        Assertions.assertEquals(2, attractionDAO.getAll().size());
+        Assertions.assertEquals("Hysteria", attractionDAO.get(2).getName());
+        Assertions.assertEquals(90, attractionDAO.get(2).getMaxCapacity());
     }
 
     @Test
     public void When_DeleteAttraction_Expect_Success() throws SQLException {
-        Assertions.assertTrue(attractionDAO.delete(3));
-        Assertions.assertEquals(2, attractionDAO.getAll().size());
+        Assertions.assertTrue(attractionDAO.delete(2));
+        Assertions.assertEquals(1, attractionDAO.getAll().size());
     }
 
     @Test
     public void When_DeleteAttraction_Expect_Failure() throws SQLException {
-        Assertions.assertFalse(attractionDAO.delete(3));
-        Assertions.assertEquals(3, attractionDAO.getAll().size());
+        Assertions.assertFalse(attractionDAO.delete(2000));
+        Assertions.assertEquals(2, attractionDAO.getAll().size());
     }
 }
