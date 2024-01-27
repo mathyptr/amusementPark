@@ -12,7 +12,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
     @Override
     public void insert(Employee employee) throws SQLException {
         Connection connection = dbManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO employee (fiscal_code, name, surname, salary) VALUES (?, ?, ?, ?)");
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO employees (fiscal_code, name, surname, salary) VALUES (?, ?, ?, ?)");
         ps.setString(1, employee.getFiscalCode());
         ps.setString(2, employee.getName());
         ps.setString(3, employee.getSurname());
@@ -25,7 +25,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
     @Override
     public void update(Employee employee) throws SQLException {
         Connection connection = dbManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement("UPDATE employee SET name = ?, surname = ?, salary = ? WHERE fiscal_code = ?");
+        PreparedStatement ps = connection.prepareStatement("UPDATE employees SET name = ?, surname = ?, salary = ? WHERE fiscal_code = ?");
         ps.setString(1, employee.getName());
         ps.setString(2, employee.getSurname());
         ps.setFloat(3, employee.getSalary());
@@ -38,7 +38,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
     @Override
     public boolean delete(String fiscalCode) throws SQLException {
         Connection connection = dbManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM employee WHERE fiscal_code = ?");
+        PreparedStatement ps = connection.prepareStatement("DELETE FROM employees WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
         int rows = ps.executeUpdate();
         ps.close();
@@ -49,7 +49,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
     public Employee get(String fiscalCode) throws SQLException {
         Connection con = dbManager.getConnection();
         Employee employee = null;
-        PreparedStatement ps = con.prepareStatement("SELECT * FROM employee WHERE fiscal_code = ?");
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM employees WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
         ResultSet rs = ps.executeQuery();
 
@@ -71,19 +71,19 @@ public class SqlEmployeeDAO implements EmployeeDAO {
     @Override
     public List<Employee> getAll() throws SQLException {
         Connection connection = dbManager.getConnection();
-        List<Employee> trainers = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
         Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM employee");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
 
         while (rs.next()) {
-            trainers.add(new Employee(
+        	employees.add(new Employee(
                     rs.getString("fiscal_code"),
                     rs.getString("name"),
                     rs.getString("surname"),
                     rs.getFloat("salary")
             ));
         }
-        return trainers;
+        return employees;
     }    
     
     
