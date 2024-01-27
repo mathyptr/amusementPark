@@ -2,6 +2,7 @@ package dao;
 
 import db.dbManager;
 import domainModel.Attraction;
+import domainModel.Customer;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -10,10 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlAttractionDAO implements AttractionDAO {
+    private final EmployeeDAO emplyeeDAO;
+    private final CustomerDAO customerDAO;
 
     private static final String TimeFormat = "dd/MM/yyyy HH:mm";
     DateTimeFormatter dataTimeFormat = DateTimeFormatter.ofPattern(TimeFormat);
-	public SqlAttractionDAO() {
+	public SqlAttractionDAO(EmployeeDAO emplyeeDAO, CustomerDAO customerDAO) {
+        this.emplyeeDAO = emplyeeDAO;
+        this.customerDAO = customerDAO;		
     }
 
 //    @Override
@@ -136,9 +141,22 @@ public class SqlAttractionDAO implements AttractionDAO {
         return id;
     }
 
- /*   @Override
-    public List<Customer> getAttendees(Integer courseId) throws Exception {
-    }*/
+    @Override
+    public List<Customer> getAttendees(Integer attractionId) throws Exception {
+        Connection connection = dbManager.getConnection();
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM bookings WHERE course = ?");
+        ps.setInt(1, attractionId);
+        ResultSet rs = ps.executeQuery();
+
+        List<Customer> customers = new ArrayList<>();
+        while (rs.next()) customers.add(customerDAO.get(rs.getString("customer")));
+
+        rs.close();
+        ps.close();
+        dbManager.closeConnection(connection);
+        return customers;
+    	
+    }
 
     @Override
     public List<Attraction> getAttractionsForCustomer(String fiscalCode) throws Exception {
