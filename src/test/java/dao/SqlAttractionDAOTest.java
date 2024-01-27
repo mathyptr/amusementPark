@@ -1,14 +1,11 @@
 package dao;
 
 import domainModel.Attraction;
-import domainModel.Employee;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import javax.xml.crypto.Data;
 
 import db.dbManager;
 
@@ -32,8 +29,13 @@ public class SqlAttractionDAOTest {
     @BeforeEach
     public void init() throws SQLException, IOException {
         Connection connection = dbManager.getConnection();
-        attractionDAO = new SqlAttractionDAO();
-
+        
+        EmployeeDAO employeeDAO = new SqlEmployeeDAO();
+        MembershipDAO membershipDAO = new SqlMembershipDAO();
+        CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);
+        attractionDAO = new SqlAttractionDAO(employeeDAO, customerDAO);
+        
+        
         // Clear the "trainers" table
         connection.prepareStatement("DELETE FROM attractions").executeUpdate();
         
