@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 
 /**
- * Decorator that lets the membership be valid from Monday To Friday
+ * Decorator that lets the membership be valid on Saturday and Sunday
  */
 public class SilverMembershipDecorator extends MembershipDecorator {
     int uses;
