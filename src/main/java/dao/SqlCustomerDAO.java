@@ -62,7 +62,7 @@ public class SqlCustomerDAO implements CustomerDAO {
     }  
        
     @Override
-    public Customer get(String fiscalCode) throws Exception {
+    public Customer get(String fiscalCode) throws SQLException,Exception {
         Connection con = dbManager.getConnection();
         Customer customer = null;
         PreparedStatement ps = con.prepareStatement("SELECT * FROM customers WHERE fiscal_code = ?");
@@ -71,9 +71,9 @@ public class SqlCustomerDAO implements CustomerDAO {
 
         if (rs.next()) {
             customer = new Customer(
-                    rs.getString("fiscal_code"),
+                    rs.getString("surname"),            		
                     rs.getString("name"),
-                    rs.getString("surname"),
+                    rs.getString("fiscal_code"),
                     membershipDAO.getOfCustomer(rs.getString("fiscal_code"))
             );
         }
@@ -85,7 +85,7 @@ public class SqlCustomerDAO implements CustomerDAO {
     }
 
     @Override
-    public List<Customer> getAll() throws Exception {
+    public List<Customer> getAll() throws SQLException,Exception {
         Connection connection = dbManager.getConnection();
         List<Customer> customers = new ArrayList<>();
         Statement stmt = connection.createStatement();
@@ -93,9 +93,9 @@ public class SqlCustomerDAO implements CustomerDAO {
 
         while (rs.next()) {
             customers.add(new Customer(
-                    rs.getString("fiscal_code"),
+                    rs.getString("surname"),            		
                     rs.getString("name"),
-                    rs.getString("surname"),
+                    rs.getString("fiscal_code"),
                     membershipDAO.getOfCustomer(rs.getString("fiscal_code"))
             ));
         }

@@ -38,14 +38,25 @@ CREATE TABLE IF NOT EXISTS attractions
 );
 
 -- Table: memberships
-CREATE TABLE IF NOT EXISTS memberships
+CREATE TABLE IF NOT EXISTS  memberships
 (
-    customer    TEXT PRIMARY KEY,
-    type     TEXT    NOT NULL, -- Type of extension (e.g. "weekend, year")
-    valid_from  TEXT NOT NULL,
-    valid_until TEXT NOT NULL,
-    FOREIGN KEY (customer) REFERENCES customers (fiscal_code) ON UPDATE CASCADE ON DELETE CASCADE
+	customer	TEXT,
+	valid_from	TEXT NOT NULL,
+	valid_until	TEXT NOT NULL,
+	PRIMARY KEY(customer),
+	FOREIGN KEY(customer) REFERENCES customers(fiscal_code) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+-- Table: memberships_extensions
+CREATE TABLE IF NOT EXISTS memberships_extensions
+(
+    customer TEXT    NOT NULL,
+    type     TEXT    NOT NULL, -- Type of extension (e.g. "silver")
+    uses     INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (customer, type),
+    FOREIGN KEY (customer) REFERENCES tickets (customer) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 
 -- Table: bookings
 CREATE TABLE IF NOT EXISTS bookings
