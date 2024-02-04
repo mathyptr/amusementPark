@@ -55,9 +55,9 @@ public class SqlEmployeeDAO implements EmployeeDAO {
 
         if (rs.next()) {
         	employee = new Employee(
-                    rs.getString("fiscal_code"),
+                    rs.getString("surname"),        			
                     rs.getString("name"),
-                    rs.getString("surname"),
+                    rs.getString("fiscal_code"),
                     rs.getFloat("salary")
             );
         }

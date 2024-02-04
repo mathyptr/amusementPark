@@ -19,11 +19,11 @@ public class CustomersController extends PeopleController<Customer> {
         Membership m = new EmptyMembership(LocalDate.now(), membershipEndDate);
 
         for (String s : membershipDecorators) {
-            if (s.equals("weekend")) m = new SilverMembershipDecorator(m);
+            if (s.equals("silver")) m = new SilverMembershipDecorator(m);
             else if (s.equals("workdays")) m = new WorkdaysMembershipDecorator(m);
         }
 
-        Customer c = new Customer(name, surname,fiscalCode, m);
+        Customer c = new Customer(surname,name,fiscalCode, m);
         return super.addPerson(c);
     }
 }
