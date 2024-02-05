@@ -37,9 +37,7 @@ class BookingsControllerTest {
 
     @BeforeEach
     public void init() throws Exception {
-    	 Connection connection = dbManager.getConnection();
-          // Set up database
-      	dbManager.setDatabase("amusementParkTest.db");
+        Connection connection = dbManager.getConnection();
          // Clear the "memberships" table        
         connection.prepareStatement("DELETE FROM memberships").executeUpdate();
           // Clear the "memberships_extensions" table        
@@ -72,8 +70,8 @@ class BookingsControllerTest {
         employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
 
         testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", new String[]{"workdays", "silver"}, LocalDate.now().plusYears(9999));
-        testattraction1Id = attractionsController.addAttraction("Starlight", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "testemployee");
-        testattraction2Id = attractionsController.addAttraction("Madness", 10, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "testemployee");
+        testattraction1Id = attractionsController.addAttraction("Starlight", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01");
+        testattraction2Id = attractionsController.addAttraction("Madness", 10, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "PTRMTH02");
     }
 
 

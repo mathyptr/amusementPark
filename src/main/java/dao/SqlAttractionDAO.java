@@ -167,11 +167,26 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public void addBooking(String fiscalCode, Integer courseId) throws SQLException {
+        Connection connection = dbManager.getConnection();
+        PreparedStatement ps = connection.prepareStatement("INSERT OR IGNORE INTO bookings (customer, attraction) VALUES (?, ?)");
+        ps.setString(1, fiscalCode);
+        ps.setInt(2, courseId);
+        ps.executeUpdate();
+
+        ps.close();
 
     }
 
     @Override
     public boolean deleteBooking(String fiscalCode, Integer courseId) throws SQLException {
-        return true;
+        Connection connection = dbManager.getConnection();
+        PreparedStatement ps = connection.prepareStatement("DELETE FROM bookings WHERE customer = ? AND attraction = ?");
+        ps.setString(1, fiscalCode);
+        ps.setInt(2, courseId);
+        int rows = ps.executeUpdate();
+
+        ps.close();
+        dbManager.closeConnection(connection);
+        return rows > 0;    	
     }
 }

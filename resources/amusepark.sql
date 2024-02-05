@@ -61,13 +61,15 @@ CREATE TABLE IF NOT EXISTS memberships_extensions
 -- Table: bookings
 CREATE TABLE IF NOT EXISTS bookings
 (
-    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    attraction   INTEGER NOT NULL,
     customer TEXT    NOT NULL,
-    type     TEXT    NOT NULL, -- Type of bookings (e.g. "flashpark, parking,restaurant")
-    datebook   TEXT    NOT NULL,
-    hourbook     TEXT    NOT NULL,
+    PRIMARY KEY (attraction, customer),
+    FOREIGN KEY (attraction) REFERENCES attractions (id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (customer) REFERENCES customers (fiscal_code) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+
+
 
 insert into employees values ('PTRMTH','Mathilde','PAT',10000);
 insert into attractions values (1,'Starlight',100,'01-01-2023','31-12-2023',1);
