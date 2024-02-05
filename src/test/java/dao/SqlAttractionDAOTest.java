@@ -36,7 +36,7 @@ public class SqlAttractionDAOTest {
         attractionDAO = new SqlAttractionDAO(employeeDAO, customerDAO);
         
         
-        // Clear the "trainers" table
+        // Clear the "attractions" table
         connection.prepareStatement("DELETE FROM attractions").executeUpdate();
         
         // Insert some test data

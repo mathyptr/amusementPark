@@ -27,7 +27,7 @@ public class SqlEmployeeDAOTest {
         Connection connection = dbManager.getConnection();
         employeeDAO = new SqlEmployeeDAO();
 
-        // Clear the "trainers" table
+        // Clear the "employees" table
         connection.prepareStatement("DELETE FROM employees").executeUpdate();
         
         // Insert some test data

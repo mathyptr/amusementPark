@@ -14,7 +14,7 @@ public class EmployeesController extends PeopleController<Employee> {
      * Add a new employee
    */
     public String addPerson(String name, String surname, String fiscalCode, float salary) throws Exception {
-    	Employee employee = new Employee(name, surname,fiscalCode,salary);
+    	Employee employee = new Employee(surname, name,fiscalCode,salary);
         return super.addPerson(employee);
     }    
 }

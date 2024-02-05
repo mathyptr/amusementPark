@@ -19,7 +19,7 @@ public class AttractionsController {
         this.attractionDAO = attractionDAO;
     }
     /**
-     * Returns the given course
+     * Returns the given Attraction
      *   
      */
     public Attraction getAttraction(int id) throws Exception {
