@@ -68,12 +68,12 @@ class BookingsControllerTest {
         EmployeesController employeesController = new EmployeesController(employeeDAO);
 
         // Insert employee, customer and two attractions into the database
-        employeesController.addPerson("testemployee", "testemployee", "testemployee", 50);
-        employeesController.addPerson("testemployee2", "testemployee2", "testemployee2", 50);
+        employeesController.addPerson("Mathy", "Pat", "PTRMTH01", 1150);
+        employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
 
-        testCustomerFiscalCode = customersController.addPerson("A", "A", "A", new String[]{"workdays", "silver"}, LocalDate.now().plusYears(9999));
-        testattraction1Id = attractionsController.addAttraction("test1", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "testemployee");
-        testattraction2Id = attractionsController.addAttraction("test2", 10, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "testemployee");
+        testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", new String[]{"workdays", "silver"}, LocalDate.now().plusYears(9999));
+        testattraction1Id = attractionsController.addAttraction("Starlight", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "testemployee");
+        testattraction2Id = attractionsController.addAttraction("Madness", 10, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "testemployee");
     }
 
 
@@ -100,7 +100,7 @@ class BookingsControllerTest {
 
     @Test
     public void When_BookingButAttractionFull_Expected_RuntimeException() throws Exception {
-        int attractionId = attractionsController.addAttraction("tmp", 0, LocalDateTime.now().plusHours(9), LocalDateTime.now().plusHours(10), "testemployee");
+        int attractionId = attractionsController.addAttraction("Blackout", 0, LocalDateTime.now().plusHours(9), LocalDateTime.now().plusHours(10), "testemployee");
 
         Assertions.assertThrows(
                 RuntimeException.class,
@@ -137,8 +137,8 @@ class BookingsControllerTest {
         // Test for non-existing attractionId
         Assertions.assertFalse(bookingsController.deleteAttractionBooking(testCustomerFiscalCode, -1));
         // Test for existing attractionId, but user has not booked that attraction
-        customersController.addPerson("B", "B", "B", new String[]{"workdays", "silver"}, LocalDate.now().plusDays(1));
-        Assertions.assertFalse(bookingsController.deleteAttractionBooking("B", testattraction1Id));
+        customersController.addPerson("M", "P", "PTRMTH03", new String[]{"workdays", "silver"}, LocalDate.now().plusDays(1));
+        Assertions.assertFalse(bookingsController.deleteAttractionBooking("Blackout", testattraction1Id));
     }
 
     @Test
