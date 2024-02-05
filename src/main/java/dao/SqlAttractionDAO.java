@@ -178,11 +178,11 @@ public class SqlAttractionDAO implements AttractionDAO {
     }
 
     @Override
-    public boolean deleteBooking(String fiscalCode, Integer courseId) throws SQLException {
+    public boolean deleteBooking(String fiscalCode, Integer attractionId) throws SQLException {
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM bookings WHERE customer = ? AND attraction = ?");
         ps.setString(1, fiscalCode);
-        ps.setInt(2, courseId);
+        ps.setInt(2, attractionId);
         int rows = ps.executeUpdate();
 
         ps.close();

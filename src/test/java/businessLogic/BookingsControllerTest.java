@@ -135,8 +135,8 @@ class BookingsControllerTest {
         // Test for non-existing attractionId
         Assertions.assertFalse(bookingsController.deleteAttractionBooking(testCustomerFiscalCode, -1));
         // Test for existing attractionId, but user has not booked that attraction
-        customersController.addPerson("M", "P", "PTRMTH03", new String[]{"workdays", "silver"}, LocalDate.now().plusDays(1));
-        Assertions.assertFalse(bookingsController.deleteAttractionBooking("Blackout", testattraction1Id));
+        customersController.addPerson("M", "P", "PTRMTH06", new String[]{"workdays", "silver"}, LocalDate.now().plusDays(1));
+        Assertions.assertFalse(bookingsController.deleteAttractionBooking("PTRMTH06", testattraction1Id));
     }
 
     @Test
