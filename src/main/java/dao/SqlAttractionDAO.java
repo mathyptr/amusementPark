@@ -144,7 +144,7 @@ public class SqlAttractionDAO implements AttractionDAO {
     @Override
     public List<Customer> getAttendees(Integer attractionId) throws Exception {
         Connection connection = dbManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM bookings WHERE course = ?");
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM bookings WHERE attraction = ?");
         ps.setInt(1, attractionId);
         ResultSet rs = ps.executeQuery();
 

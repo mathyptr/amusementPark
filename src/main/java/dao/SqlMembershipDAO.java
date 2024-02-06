@@ -36,9 +36,9 @@ public class SqlMembershipDAO implements MembershipDAO {
 		//Membership membership = null;
 		try {
 			if(type.equals("workdays"))
-				membership= (WorkdaysMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,0);
+				membership= (WorkdaysMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,1);
 			else if (type.equals("silver"))
-				membership=(SilverMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,0);
+				membership=(SilverMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,2);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block
