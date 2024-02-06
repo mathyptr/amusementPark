@@ -50,8 +50,10 @@ class BookingsControllerTest {
         connection.prepareStatement("DELETE FROM attractions").executeUpdate();
           
           // Clear the "employees" table
-        connection.prepareStatement("DELETE FROM employees").executeUpdate();        
-
+        connection.prepareStatement("DELETE FROM employees").executeUpdate(); 
+        
+        // Reset autoincrement counters
+        connection.prepareStatement("DELETE FROM sqlite_sequence").executeUpdate();
 
         // Create DAOs
         SqlCustomerDAO customerDAO = new SqlCustomerDAO(new SqlMembershipDAO());
@@ -69,9 +71,9 @@ class BookingsControllerTest {
         employeesController.addPerson("Mathy", "Pat", "PTRMTH01", 1150);
         employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
 
-        testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", new String[]{"workdays", "silver"}, LocalDate.now().plusYears(9999));
+        testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", new String[]{"workdays", "silver"}, LocalDate.now().plusYears(100));
         testattraction1Id = attractionsController.addAttraction("Starlight", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01");
-        testattraction2Id = attractionsController.addAttraction("Madness", 10, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "PTRMTH02");
+        testattraction2Id = attractionsController.addAttraction("Madness", 10, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "PTRMTH01");
     }
 
 
@@ -87,7 +89,7 @@ class BookingsControllerTest {
 
     @Test
     public void When_BookingButAlreadyBookedInSameTime_Expected_Exception() throws Exception {
-        int id = attractionsController.addAttraction("test2", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "testemployee2");
+        int id = attractionsController.addAttraction("Blackout", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH02");
         bookingsController.bookAttraction(testCustomerFiscalCode, testattraction1Id);
         Assertions.assertThrows(
                 RuntimeException.class,

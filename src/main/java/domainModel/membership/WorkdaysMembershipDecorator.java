@@ -34,12 +34,12 @@ public class WorkdaysMembershipDecorator extends MembershipDecorator {
 
     @Override
     public String getUsesDescription() {
-        return super.getUsesDescription() + "Weekdays uses: " + uses + ", ";
+        return super.getUsesDescription() + "Workdays uses: " + uses + ", ";
     }
 
     @Override
     public HashMap<String, Integer> getUses() {
-        this.membership.getUses().put("weekdays", uses);
+        this.membership.getUses().put("workdays", uses);
         return this.membership.getUses();
     }
 
