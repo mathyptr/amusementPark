@@ -2,7 +2,6 @@ package businessLogic;
 
 import dao.*;
 import db.dbManager;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +44,7 @@ class AttractionControllerTest {
     
     
     @Test
-    void When_AddingCourse_With_OccupiedTrainer_Expect_IllegalArgumentException() throws Exception {
+    void When_AddingCourse_With_OccupiedEmployee_Expect_IllegalArgumentException() throws Exception {
         // Create DAOs
         SqlCustomerDAO customerDAO = new SqlCustomerDAO(new SqlMembershipDAO());
         EmployeeDAO employeeDAO = new SqlEmployeeDAO();
@@ -54,7 +53,7 @@ class AttractionControllerTest {
         // Create controllers
         AttractionsController attractionsController = new AttractionsController(new EmployeesController(employeeDAO), attractionDAO);
         EmployeesController employeesController = new EmployeesController(employeeDAO);
-        // Insert trainer
+        // Insert Employee
         employeesController.addPerson("Samu","Mar","MRNSML1", 550);
         employeesController.addPerson("Sam","Ma","MRNSML2", 650);
         employeesController.addPerson("Sa","Marr","MRNSML3", 850);        

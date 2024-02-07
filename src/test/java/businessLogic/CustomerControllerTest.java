@@ -1,9 +1,9 @@
 package businessLogic;
 
 import dao.CustomerDAO;
-import db.dbManager;
 import dao.SqlCustomerDAO;
 import dao.SqlMembershipDAO;
+import db.dbManager;
 import domainModel.Customer;
 import domainModel.membership.EmptyMembership;
 import domainModel.membership.Membership;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,9 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 
 class CustomerControllerTest {

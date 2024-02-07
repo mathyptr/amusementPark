@@ -1,12 +1,9 @@
 package businessLogic;
 
-
 import dao.AttractionDAO;
 import dao.MembershipDAO;
-import dao.SqlMembershipDAO;
 import domainModel.Attraction;
 import domainModel.Customer;
-import domainModel.membership.Membership;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

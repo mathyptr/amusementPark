@@ -1,6 +1,6 @@
 package dao;
 
-
+import db.dbManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,11 +9,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import db.dbManager;
 import domainModel.Customer;
 import domainModel.membership.EmptyMembership;
 import domainModel.membership.Membership;

@@ -20,7 +20,7 @@ public class Customer extends Person {
 
     @Override
     public String toString() {
-        return "Trainer{" +
+        return "Customer{" +
                 "fiscalCode='" + getFiscalCode() + '\'' +
                 ", name='" + getName() + '\'' +
                 ", surname='" + getSurname() + '\'' +

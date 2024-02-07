@@ -1,5 +1,6 @@
 package dao;
 
+import db.dbManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import db.dbManager;
 import domainModel.Employee;
 
 public class SqlEmployeeDAOTest {
