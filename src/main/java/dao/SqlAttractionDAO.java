@@ -160,9 +160,20 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public List<Attraction> getAttractionsForCustomer(String fiscalCode) throws Exception {
+        
+        Connection connection = dbManager.getConnection();
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM bookings WHERE customer = ?");
+        ps.setString(1, fiscalCode);
+        ResultSet rs = ps.executeQuery();
 
         List<Attraction> attractions = new ArrayList<>();
-        return attractions;
+        while (rs.next()) attractions.add(this.get(rs.getInt("attraction")));
+
+        rs.close();
+        ps.close();
+        dbManager.closeConnection(connection);
+        return attractions;       
+        
     }
 
     @Override

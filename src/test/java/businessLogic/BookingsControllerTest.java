@@ -51,6 +51,9 @@ class BookingsControllerTest {
           
           // Clear the "employees" table
         connection.prepareStatement("DELETE FROM employees").executeUpdate(); 
+
+        // Clear the "employees" table
+      connection.prepareStatement("DELETE FROM bookings").executeUpdate(); 
         
         // Reset autoincrement counters
         connection.prepareStatement("DELETE FROM sqlite_sequence").executeUpdate();
@@ -100,7 +103,7 @@ class BookingsControllerTest {
 
     @Test
     public void When_BookingButAttractionFull_Expected_RuntimeException() throws Exception {
-        int attractionId = attractionsController.addAttraction("Blackout", 0, LocalDateTime.now().plusHours(9), LocalDateTime.now().plusHours(10), "testemployee");
+        int attractionId = attractionsController.addAttraction("Blackout", 0, LocalDateTime.now().plusHours(9), LocalDateTime.now().plusHours(10), "PTRMTH01");
 
         Assertions.assertThrows(
                 RuntimeException.class,
