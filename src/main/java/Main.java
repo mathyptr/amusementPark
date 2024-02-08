@@ -1,4 +1,6 @@
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -6,6 +8,10 @@ import java.time.format.DateTimeFormatter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import businessLogic.AttractionsController;
+import businessLogic.BookingsController;
+import businessLogic.CustomersController;
+import businessLogic.EmployeesController;
 import dao.AttractionDAO;
 import dao.CustomerDAO;
 import dao.EmployeeDAO;
@@ -15,7 +21,7 @@ import dao.SqlAttractionDAO;
 import dao.SqlCustomerDAO;
 import dao.SqlEmployeeDAO;
 import db.dbManager;
-
+import domainModel.Customer;
 import util.MessagesBundle;
 
 /**
@@ -24,8 +30,31 @@ import util.MessagesBundle;
  */
 public class Main 
 {
+	private static void cleanDB() throws Exception 
+	{
+	   Connection connection = dbManager.getConnection();
+	   connection.prepareStatement("DELETE FROM memberships").executeUpdate();
+         // Clear the "memberships_extensions" table        
+       connection.prepareStatement("DELETE FROM memberships_extensions").executeUpdate();
+
+         // Clear the "customers" table
+       connection.prepareStatement("DELETE FROM customers").executeUpdate();
+         
+         // Clear the "attractions" table
+       connection.prepareStatement("DELETE FROM attractions").executeUpdate();
+         
+         // Clear the "employees" table
+       connection.prepareStatement("DELETE FROM employees").executeUpdate(); 
+
+       // Clear the "employees" table
+     connection.prepareStatement("DELETE FROM bookings").executeUpdate(); 
+       
+       // Reset autoincrement counters
+       connection.prepareStatement("DELETE FROM sqlite_sequence").executeUpdate();
+	}
+	
 	private static final Logger logger = LogManager.getLogger("Main.class");
-    public static void main( String[] args )
+    public static void main( String[] args ) throws Exception
     {
         dbManager.setDatabase("amusepark.db");
         try {
@@ -33,23 +62,30 @@ public class Main
         } catch (SQLException e) {
     		logger.error(e.getMessage());            
         }
-
+        cleanDB();
         MembershipDAO membershipDAO = new SqlMembershipDAO();
-        
-        EmployeeDAO employeeDAO= new SqlEmployeeDAO();
-        
-        CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);
-        
+        EmployeeDAO employeeDAO= new SqlEmployeeDAO();      
+        CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
         AttractionDAO attractionDAO = new SqlAttractionDAO(employeeDAO, customerDAO);        
 
-/*
-        String s;
-        DateTimeFormatter df1 = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ITALIAN);        
-        LocalDate date = LocalDate.parse("01/11/2023", df1);
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm", Locale.ITALIAN);
-        LocalDateTime dateTime = LocalDateTime.parse("01/11/2023 00:00", df);
-*/
+        CustomersController customersController = new CustomersController(customerDAO);
+        EmployeesController employeesController = new EmployeesController(employeeDAO);        
+        AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
+        BookingsController bookingsController = new BookingsController(attractionController, customersController, attractionDAO, membershipDAO);
 
+        employeesController.addPerson("Mathy", "Pat", "PTRMTH01", 1150);
+        employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
+
+        // Add an attraction
+        int attraction1=attractionController.addAttraction("Pressure", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2), "PTRMTH01");
+        int attraction2=attractionController.addAttraction("Supremacy", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(6), "PTRMTH02");
+       
+        customersController.addPerson( "Samu","Marr", "MRRSML01", new String[]{"workdays","silver"}, LocalDate.now().plusYears(1));
+        customersController.addPerson( "Sam","Mar", "MRRSML02", new String[]{"workdays"}, LocalDate.now().plusYears(1));
+         
+        bookingsController.bookAttraction("MRRSML01", attraction1);
+        bookingsController.bookAttraction("MRRSML02", attraction2);       
+        
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         String caseStartDate = dateFormat.format(LocalDateTime.now());
         System.out.println(caseStartDate);
@@ -66,5 +102,10 @@ public class Main
      	MessagesBundle msgB= new MessagesBundle();
 		msgB.SetLanguage("en", "US");	
 		logger.info(MessagesBundle.GetResourceValue("welcome_messages"));
+		
+		logger.info(customersController.getPerson("MRRSML01").getMembership().getUses());
+		logger.info(customersController.getPerson("MRRSML01").getMembership().getUsesDescription());
+		logger.info(customersController.getPerson("MRRSML01"));	
+		
     }
 }
