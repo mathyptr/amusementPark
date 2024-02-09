@@ -1,8 +1,13 @@
 package domainModel;
 
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import db.dbManager;
 import util.MessagesBundle;
 
 
@@ -13,11 +18,11 @@ public class Attraction {
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
     private final String employeeFiscalCode;
-//MATHY   un'attrazione ha anche l'addetto: dobbiamo implementare la classe Employee 
+	private final Logger logger = LogManager.getLogger("Attraction.class");    
 //    private final Employee employee;  
     
     public Attraction(int id, String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode) {
-// MATHY   dobbiamo passare anche l'oggetto Employee
+
         this.employeeFiscalCode = employeeFiscalCode;
     	
     	this.name = name;
@@ -25,9 +30,9 @@ public class Attraction {
         this.startDate = startDate;
         this.endDate = endDate;
         this.id = id;
-
+        MessagesBundle msgB = MessagesBundle.getInstance();  
         if (endDate.equals(startDate) || endDate.isBefore(startDate))
-            throw new IllegalArgumentException("endDate_is_smaller_startDate");
+            throw new IllegalArgumentException(msgB.GetResourceValue("endDate_is_smaller_startDate"));
         
 
     }

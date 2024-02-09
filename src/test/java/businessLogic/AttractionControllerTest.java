@@ -2,6 +2,8 @@ package businessLogic;
 
 import dao.*;
 import db.dbManager;
+import util.MessagesBundle;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +20,8 @@ class AttractionControllerTest {
     static void initDb() throws SQLException, IOException {
         // Set up database
     	dbManager.setDatabase("amusementParkTest.db");
-    	
-//    	dbManager.initDatabase();
+        // Set up language    	
+        MessagesBundle.SetLanguage("it", "IT");
     }
 
     @BeforeEach

@@ -8,6 +8,7 @@ import domainModel.Customer;
 import domainModel.membership.EmptyMembership;
 import domainModel.membership.Membership;
 import domainModel.membership.SilverMembershipDecorator;
+import util.MessagesBundle;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -32,7 +33,8 @@ class CustomerControllerTest {
     static void initDb() throws SQLException, IOException {
         // Set up database
     	dbManager.setDatabase("amusementParkTest.db");
-//        Database.initDatabase();
+        // Set up language    	
+        MessagesBundle.SetLanguage("it", "IT");
     }
 
     @BeforeEach

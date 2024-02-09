@@ -3,6 +3,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+import util.MessagesBundle;
+
 /**
  * Decorator that lets the membership be valid on Saturday and Sunday
  */
@@ -26,7 +28,8 @@ public class SilverMembershipDecorator extends MembershipDecorator {
     
     @Override
     public String getUsesDescription() {
-        return super.getUsesDescription() + "Silver uses: " + uses + ", ";
+        MessagesBundle msgB = MessagesBundle.getInstance();      	
+        return super.getUsesDescription() + msgB.GetResourceValue("Silver_uses") + uses + ", ";
     }    
 
     @Override

@@ -57,6 +57,7 @@ public class Main
     public static void main( String[] args ) throws Exception
     {
         dbManager.setDatabase("amusepark.db");
+        MessagesBundle.SetLanguage("it", "IT");
         try {
         	dbManager.getConnection();
         } catch (SQLException e) {
@@ -99,7 +100,9 @@ public class Main
 			logger.error(e.getMessage());  
 		}
         logger.info("n attraction: "+Integer.toString(nattraction));
-     	MessagesBundle msgB= new MessagesBundle();
+        
+        MessagesBundle msgB = MessagesBundle.getInstance();        
+/*     	MessagesBundle msgB= new MessagesBundle();*/
 		msgB.SetLanguage("en", "US");	
 		logger.info(MessagesBundle.GetResourceValue("welcome_messages"));
 		

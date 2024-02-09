@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+import util.MessagesBundle;
+
 /**
  * Concrete class representing a membership that can never access the the Park.
  */
@@ -24,8 +26,9 @@ public class EmptyMembership implements Membership {
      *
      */
     public EmptyMembership(LocalDate validFrom, LocalDate validUntil) {
+        MessagesBundle msgB = MessagesBundle.getInstance();       	
         if (!validFrom.isBefore(validUntil) && !validFrom.equals(validUntil))
-            throw new IllegalArgumentException("Date range invalid: validFrom must be a date before or equal to validUntil");
+            throw new IllegalArgumentException(msgB.GetResourceValue("Date_range_invalid"));
 
         this.price = 0;
         this.validFrom = validFrom;

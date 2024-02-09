@@ -1,11 +1,22 @@
 package domainModel.membership;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import util.MessagesBundle;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 class EmptyMembershipTest {
+	
+    @BeforeAll
+    static void setLanguage() {
+        // Set up language
+        MessagesBundle.SetLanguage("it", "IT");
+    }  	
+    
     @Test
     public void when_creatingNewMembership_With_invalidInterval_Expect_IllegalArgumentException() {
         Assertions.assertThrows(
