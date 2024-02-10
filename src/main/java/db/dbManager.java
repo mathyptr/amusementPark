@@ -1,6 +1,5 @@
 package db;
 
-import java.io.*;
 import java.sql.*;
 
 /**

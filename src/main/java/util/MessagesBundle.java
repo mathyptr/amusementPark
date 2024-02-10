@@ -1,12 +1,9 @@
 package util;
 
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
-import db.dbManager;
 
 /**
  * Class used for internationalization and localization 
@@ -15,13 +12,10 @@ import db.dbManager;
  */
 
 public class MessagesBundle {
-    private String language="it";
-    private String country="IT";
     private static Locale currentLocale;
     private static  ResourceBundle messages;
     private static MessagesBundle instance = null;     
-    /*public void MessagesBundle() {
-        }*/
+
     // Private constructor (Singleton pattern)
     private MessagesBundle() {}    
     
@@ -40,8 +34,6 @@ public class MessagesBundle {
 	 * @param country  String
 	 */
     public static void SetLanguage(String language, String country) {
-    language=language;
-    country=country;
     currentLocale = new Locale(language, country);
     messages = ResourceBundle.getBundle("language.MessagesBundle", currentLocale);
     }
