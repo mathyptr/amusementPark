@@ -3,6 +3,7 @@ package businessLogic;
 import dao.AttractionDAO;
 import domainModel.Attraction;
 import domainModel.Employee;
+import util.MessagesBundle;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,16 +39,17 @@ public class AttractionsController {
      *
     */
     public int addAttraction(String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode) throws Exception {
+        MessagesBundle msgB = MessagesBundle.getInstance();    	
     	Employee employee = employeeController.getPerson(employeeFiscalCode);
         if (employee == null)
-            throw new IllegalArgumentException("Attraction not found");
+            throw new IllegalArgumentException(msgB.GetResourceValue("Employee_Not_found"));
 
         // Check if the given Attraction is not already occupied for the given time range
         for (Attraction attract : this.attractionDAO.getAll()) {
             if (attract.getEmployeeFiscalCode().equals(employeeFiscalCode)) {
                 if ((attract.getStartDate().isBefore(endDate) || attract.getStartDate().equals(endDate))
                         && (attract.getEndDate().isAfter(startDate) || attract.getEndDate().equals(startDate)))
-                    throw new IllegalArgumentException("The given Attraction is already occupied in the given time range (in Attraction #" + attract.getId() + ")");
+                    throw new IllegalArgumentException(msgB.GetResourceValue("Attraction_busy_in_time_range" + attract.getId() + ")"));
             }
         }
 

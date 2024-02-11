@@ -4,6 +4,7 @@ import dao.AttractionDAO;
 import dao.MembershipDAO;
 import domainModel.Attraction;
 import domainModel.Customer;
+import util.MessagesBundle;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -27,28 +28,30 @@ public class BookingsController {
      * Books an attraction for the given customer
          */
     public void bookAttraction(String customerFiscalCode, int attractionId) throws Exception {
+        MessagesBundle msgB = MessagesBundle.getInstance();    	
     	Attraction c = attractionsController.getAttraction(attractionId);
         Customer customer = customersController.getPerson(customerFiscalCode);
-        if (c == null) throw new RuntimeException("The given attraction id does not exist");
-        if (customer == null) throw new RuntimeException("The given customer does not exist");
+              
+        if (c == null) throw new RuntimeException( msgB.GetResourceValue("Attraction_ID_not_valid"));
+        if (customer == null) throw new RuntimeException(msgB.GetResourceValue("Customer_Not_found"));
 
         List<Customer> attendees = attractionsDAO.getAttendees(attractionId);
         if (attendees.size() == c.getMaxCapacity())
-            throw new RuntimeException("This attraction if full, can't book");
+            throw new RuntimeException(msgB.GetResourceValue("Attraction_Full"));
         if (attendees.contains(customer))
-            throw new RuntimeException("The given customer is already booked for this attraction");
+            throw new RuntimeException(msgB.GetResourceValue("Customer_already_booked_attraction"));
 
         getBookingsForCustomer(customerFiscalCode).forEach(attraction -> {
             LocalDateTime c1 = attraction.getStartDate().truncatedTo(ChronoUnit.HOURS);
             LocalDateTime c2 = c.getStartDate().truncatedTo(ChronoUnit.HOURS);
             if (c1.equals(c2))
-                throw new RuntimeException("The given customer is already booked for a attraction at the same time");
+                throw new RuntimeException(msgB.GetResourceValue("Customer_booked_attraction_same_time"));
         });
 //MATHY controllare che    customer.getMembership() non ritorni NULL
         if (customer.getMembership().isExpired())
-            throw new RuntimeException("The membership of the given user is expired");
+            throw new RuntimeException(msgB.GetResourceValue("User_membership_expired"));
         if (!customer.getMembership().isValidForInterval(c.getStartDate(), c.getEndDate()))
-            throw new RuntimeException("The membership of the given user is not valid for this attraction");
+            throw new RuntimeException(msgB.GetResourceValue("User_membership_not_valid"));
 
         // Update membership (update uses field)
         membershipDAO.updateOfCustomer(customer.getFiscalCode(), customer.getMembership());

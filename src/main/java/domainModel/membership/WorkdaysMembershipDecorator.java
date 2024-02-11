@@ -4,6 +4,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+import util.MessagesBundle;
+
 /**
  * Decorator that lets the membership be valid in workdays
  */
@@ -34,7 +36,8 @@ public class WorkdaysMembershipDecorator extends MembershipDecorator {
 
     @Override
     public String getUsesDescription() {
-        return super.getUsesDescription() + "Workdays uses: " + uses + ", ";
+        MessagesBundle msgB = MessagesBundle.getInstance();    
+        return super.getUsesDescription() + msgB.GetResourceValue("Workdays_uses") + uses + ", ";
     }
 
     @Override
