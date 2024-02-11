@@ -30,6 +30,13 @@ import util.MessagesBundle;
  */
 public class Main 
 {
+	public static void SplashScreen() {
+		logger.info(MessagesBundle.GetResourceValue("welcome_messages_p0"));
+		logger.info(MessagesBundle.GetResourceValue("welcome_messages_p1"));	
+		logger.info(MessagesBundle.GetResourceValue("welcome_messages_p2"));	
+	}
+
+	
 	private static void cleanDB() throws Exception 
 	{
 	   Connection connection = dbManager.getConnection();
@@ -63,6 +70,11 @@ public class Main
         } catch (SQLException e) {
     		logger.error(e.getMessage());            
         }
+        
+        MessagesBundle msgB = MessagesBundle.getInstance();     
+        
+        SplashScreen();	
+        
         cleanDB();
         MembershipDAO membershipDAO = new SqlMembershipDAO();
         EmployeeDAO employeeDAO= new SqlEmployeeDAO();      
@@ -100,12 +112,7 @@ public class Main
 			logger.error(e.getMessage());  
 		}
         logger.info("n attraction: "+Integer.toString(nattraction));
-        
-        MessagesBundle msgB = MessagesBundle.getInstance();        
-/*     	MessagesBundle msgB= new MessagesBundle();*/
-		msgB.SetLanguage("en", "US");	
-		logger.info(MessagesBundle.GetResourceValue("welcome_messages"));
-		
+       	
 		logger.info(customersController.getPerson("MRRSML01").getMembership().getUses());
 		logger.info(customersController.getPerson("MRRSML01").getMembership().getUsesDescription());
 		logger.info(customersController.getPerson("MRRSML01"));	
