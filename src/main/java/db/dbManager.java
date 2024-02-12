@@ -15,7 +15,7 @@ public class dbManager {
     private dbManager() {}
     
     public static dbManager getInstance() {
-        // Create the object only if there's not an istance:
+        // Create the object only if there's not an instance:
         if (instance == null) {
             instance = new dbManager();
         }
