@@ -49,7 +49,7 @@ public class AttractionsController {
             if (attract.getEmployeeFiscalCode().equals(employeeFiscalCode)) {
                 if ((attract.getStartDate().isBefore(endDate) || attract.getStartDate().equals(endDate))
                         && (attract.getEndDate().isAfter(startDate) || attract.getEndDate().equals(startDate)))
-                    throw new IllegalArgumentException(msgB.GetResourceValue("Attraction_busy_in_time_range" + attract.getId() + ")"));
+                    throw new IllegalArgumentException(msgB.GetResourceValue("Attraction_busy_in_time_range") + attract.getId() + ")");
             }
         }
 
