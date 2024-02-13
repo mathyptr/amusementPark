@@ -60,7 +60,7 @@ public class Main
        connection.prepareStatement("DELETE FROM sqlite_sequence").executeUpdate();
 	}
 	
-	private static final Logger logger = LogManager.getLogger("Main.class");
+	private static final Logger logger = LogManager.getLogger("Main");
     public static void main( String[] args ) throws Exception
     {
         dbManager.setDatabase("amusepark.db");
@@ -100,10 +100,6 @@ public class Main
         bookingsController.bookAttraction("MRRSML02", attraction2);       
         
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        String caseStartDate = dateFormat.format(LocalDateTime.now());
-        System.out.println(caseStartDate);
-        LocalDateTime localdatetime = LocalDateTime.parse(caseStartDate, dateFormat);
-        System.out.println(localdatetime);
         		
         int nattraction=0;
         try {

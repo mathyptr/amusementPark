@@ -4,6 +4,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import util.MessagesBundle;
 
 /**
@@ -11,7 +14,8 @@ import util.MessagesBundle;
  */
 public class WorkdaysMembershipDecorator extends MembershipDecorator {
     int uses;
-
+	private final Logger logger = LogManager.getLogger("MembershipDecorator");
+	
     public WorkdaysMembershipDecorator(Membership membership) {
         super(membership);
     }
@@ -26,6 +30,7 @@ public class WorkdaysMembershipDecorator extends MembershipDecorator {
         if (!this.isDateIntervalValid(start, end)) return false;
         boolean isCurrTrue = (isOnWeekdays(start) && isOnWeekdays(end));
         if (isCurrTrue) uses++;
+        else logger.debug(MessagesBundle.GetResourceValue("Memership_Not_Valid_For_Interval")+"("+start.toString()+","+end.toString()+")");        
         return super.isValidForInterval(start, end) || isCurrTrue;
     }
 
