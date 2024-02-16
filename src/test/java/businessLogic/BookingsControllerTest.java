@@ -167,7 +167,7 @@ class BookingsControllerTest {
     public void When_BookingForCustomer_Expect_UsesToIncreaseCorrectly() throws Exception {
         // Test if the membership is valid on next thursday
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY); // Thursday of the current week
+        c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY); // THURSDAY of the current week
         LocalDateTime workDay = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
         // Test if the membership is valid on next Sunday
