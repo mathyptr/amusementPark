@@ -25,6 +25,8 @@ public class SqlMembershipDAO implements MembershipDAO {
 			type= "workdays";
 		else if (membership instanceof SilverMembershipDecorator)
 			type= "silver";	
+		else if (membership instanceof GoldMembershipDecorator)
+			type= "gold";			
 		
 		return type;		
 	}
@@ -39,6 +41,8 @@ public class SqlMembershipDAO implements MembershipDAO {
 				membership= (WorkdaysMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,1);
 			else if (type.equals("silver"))
 				membership=(SilverMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,2);
+			else if (type.equals("gold"))
+				membership=(GoldMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,2);			
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block
