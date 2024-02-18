@@ -14,7 +14,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
 	private final Logger logger = LogManager.getLogger("SqlEmployeeDAO");
     @Override
     public void insert(Employee employee) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("employee_data")+employee.toString());    	
+    	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data_insert")+employee.toString());    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT INTO employees (fiscal_code, name, surname, salary) VALUES (?, ?, ?, ?)");
         ps.setString(1, employee.getFiscalCode());
@@ -28,7 +28,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
 
     @Override
     public void update(Employee employee) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("employee_data")+employee.toString());    	
+    	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data_update")+employee.toString());    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE employees SET name = ?, surname = ?, salary = ? WHERE fiscal_code = ?");
         ps.setString(1, employee.getName());
@@ -42,7 +42,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
 
     @Override
     public boolean delete(String fiscalCode) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("employee_data")+fiscalCode);    	
+    	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data_delete")+fiscalCode);    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM employees WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
@@ -71,7 +71,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
         rs.close();
         ps.close();
         dbManager.closeConnection(con);
-    	logger.debug(MessagesBundle.GetResourceValue("employee_data")+employee.toString());        
+    	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data")+employee.toString());        
         return employee;
     }
 
