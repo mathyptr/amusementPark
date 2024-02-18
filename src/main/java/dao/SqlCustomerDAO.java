@@ -9,19 +9,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import domainModel.Customer;
+import util.MessagesBundle;
 
 
 public class SqlCustomerDAO implements CustomerDAO {
 
     private final MembershipDAO membershipDAO;
-
+	private final Logger logger = LogManager.getLogger("SqlCustomerDAO");
+	
     public SqlCustomerDAO(MembershipDAO membershipDAO) {
         this.membershipDAO = membershipDAO;
     }
 
     @Override
     public void insert(Customer customer) throws Exception {
+    	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data_insert")+customer.toString());    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT INTO customers (fiscal_code, name, surname) VALUES (?, ?, ?)");
         ps.setString(1, customer.getFiscalCode());
@@ -37,6 +43,7 @@ public class SqlCustomerDAO implements CustomerDAO {
 
     @Override
     public void update(Customer customer) throws Exception {
+    	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data_update")+customer.toString());    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE customers SET name = ?, surname = ? WHERE fiscal_code = ?");
         ps.setString(1, customer.getName());
@@ -51,6 +58,7 @@ public class SqlCustomerDAO implements CustomerDAO {
 
     @Override
     public boolean delete(String fiscalCode) throws SQLException {
+    	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data_delete")+fiscalCode);    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM customers WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
@@ -62,7 +70,7 @@ public class SqlCustomerDAO implements CustomerDAO {
     }  
        
     @Override
-    public Customer get(String fiscalCode) throws SQLException,Exception {
+    public Customer get(String fiscalCode) throws SQLException,Exception {    	
         Connection con = dbManager.getConnection();
         Customer customer = null;
         PreparedStatement ps = con.prepareStatement("SELECT * FROM customers WHERE fiscal_code = ?");
@@ -81,6 +89,7 @@ public class SqlCustomerDAO implements CustomerDAO {
         rs.close();
         ps.close();
         dbManager.closeConnection(con);
+    	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data")+customer.toString());        
         return customer;
     }
 

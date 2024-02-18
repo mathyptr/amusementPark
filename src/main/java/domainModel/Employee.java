@@ -19,7 +19,7 @@ public class Employee extends Person {
     @Override
     public String toString() {
         return "Employee{" +
-                ", surname='" + getSurname() + '\'' +
+                "surname='" + getSurname() + '\'' +
                 ", name='" + getName() + '\'' +
                 ", fiscalCode='" + getFiscalCode() + '\'' +
                 ", salary=" + salary +
