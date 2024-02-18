@@ -89,7 +89,11 @@ public class SqlCustomerDAO implements CustomerDAO {
         rs.close();
         ps.close();
         dbManager.closeConnection(con);
-    	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data")+customer.toString());        
+        if(customer!=null)
+        	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data")+customer.toString());
+        else
+        	logger.debug(MessagesBundle.GetResourceValue("Customer_Not_found")+fiscalCode);        
+        
         return customer;
     }
 

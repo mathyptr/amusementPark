@@ -71,7 +71,10 @@ public class SqlEmployeeDAO implements EmployeeDAO {
         rs.close();
         ps.close();
         dbManager.closeConnection(con);
-    	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data")+employee.toString());        
+        if(employee!=null)
+        	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data")+employee.toString());
+        else
+        	logger.debug(MessagesBundle.GetResourceValue("Employee_Not_found")+fiscalCode);        
         return employee;
     }
 
