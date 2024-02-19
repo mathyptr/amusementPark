@@ -13,7 +13,7 @@ class AttractionTest {
     public void When_CreatingNewCourse_With_InvalidDates_Expect_IllegalArgumentException() {
     	Employee employeeMock = Mockito.mock(Employee.class);
     	String fiscalCode;
-//    	when(employeeMock.getFiscalCode()).thenReturn("MRRSML01");
+    	Mockito.when(employeeMock.getFiscalCode()).thenReturn("MRRSML01");
 // fiscalCode=employeeMock.getFiscalCode();
         Assertions.assertThrows(
             IllegalArgumentException.class,
