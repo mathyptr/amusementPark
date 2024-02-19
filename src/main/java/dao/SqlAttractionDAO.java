@@ -3,6 +3,7 @@ package dao;
 import db.dbManager;
 import domainModel.Attraction;
 import domainModel.Customer;
+import util.MessagesBundle;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -10,10 +11,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class SqlAttractionDAO implements AttractionDAO {
     private final EmployeeDAO emplyeeDAO;
     private final CustomerDAO customerDAO;
-
+	private final Logger logger = LogManager.getLogger("SqlAttractionDAO");    
     private static final String TimeFormat = "dd/MM/yyyy HH:mm";
     DateTimeFormatter dataTimeFormat = DateTimeFormatter.ofPattern(TimeFormat);
 	public SqlAttractionDAO(EmployeeDAO emplyeeDAO, CustomerDAO customerDAO) {
@@ -22,11 +26,9 @@ public class SqlAttractionDAO implements AttractionDAO {
     }
 
 //    @Override
-    public Attraction get(Integer id) throws SQLException {
+    public Attraction get(Integer id) throws SQLException {   	
         Connection connection = dbManager.getConnection();
         Attraction attract = null;
-        
-//        DateTimeFormatter df = DateTimeFormatter.ofPattern(TimeFormat);        
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM attractions WHERE id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
@@ -80,7 +82,7 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public void insert(Attraction attraction) throws SQLException {
-
+    	logger.debug(MessagesBundle.GetResourceValue("debug_attraction_data_insert")+attraction.getName());    	
         Connection connection = dbManager.getConnection();
         
         PreparedStatement ps = connection.prepareStatement("INSERT INTO attractions (name, max_capacity, start_date, end_date, employee) VALUES (?, ?, ?, ?, ?)");
@@ -99,6 +101,7 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public void update(Attraction attraction) throws SQLException {
+    	logger.debug(MessagesBundle.GetResourceValue("debug_attraction_data_update")+attraction.getName());    	    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE attractions SET name = ?, max_capacity = ?, start_date = ?, end_date = ?, employee = ? WHERE id = ?");
         ps.setString(1, attraction.getName());
@@ -115,6 +118,8 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public boolean delete(Integer id) throws SQLException {
+    	logger.debug(MessagesBundle.GetResourceValue("debug_attraction_data_delete")+Integer.toString(id));    	
+    	
     	Attraction attraction = get(id);
         if (attraction == null) return false;
 
@@ -178,6 +183,7 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public void addBooking(String fiscalCode, Integer courseId) throws SQLException {
+   	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT OR IGNORE INTO bookings (customer, attraction) VALUES (?, ?)");
         ps.setString(1, fiscalCode);
