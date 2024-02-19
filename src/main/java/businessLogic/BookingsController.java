@@ -47,7 +47,9 @@ public class BookingsController {
             if (c1.equals(c2))
                 throw new RuntimeException(msgB.GetResourceValue("Customer_booked_attraction_same_time"));
         });
-//MATHY controllare che    customer.getMembership() non ritorni NULL
+
+        if (customer.getMembership()==null)
+             throw new RuntimeException(msgB.GetResourceValue("User_membership_not_valid"));	
         if (customer.getMembership().isExpired())
             throw new RuntimeException(msgB.GetResourceValue("User_membership_expired"));
         if (!customer.getMembership().isValidForInterval(c.getStartDate(), c.getEndDate()))
@@ -82,7 +84,9 @@ public class BookingsController {
             if (c1.equals(c2))
                 throw new RuntimeException(msgB.GetResourceValue("Customer_booked_attraction_same_time"));
         });
-//MATHY controllare che    customer.getMembership() non ritorni NULL
+        
+        if (customer.getMembership()==null)
+            throw new RuntimeException(msgB.GetResourceValue("User_membership_not_valid"));        	
         if (customer.getMembership().isExpired())
             throw new RuntimeException(msgB.GetResourceValue("User_membership_expired"));
         if (!customer.getMembership().isValidForInterval(c.getStartDate(), c.getEndDate()))
