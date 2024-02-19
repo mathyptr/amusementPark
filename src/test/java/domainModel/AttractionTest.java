@@ -2,9 +2,7 @@ package domainModel;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito.*;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 
 
@@ -12,7 +10,7 @@ class AttractionTest {
     @Test
     public void When_CreatingNewCourse_With_InvalidDates_Expect_IllegalArgumentException() {
     	Employee employeeMock = Mockito.mock(Employee.class);
-    	String fiscalCode;
+//    	String fiscalCode;
     	Mockito.when(employeeMock.getFiscalCode()).thenReturn("MRRSML01");
 // fiscalCode=employeeMock.getFiscalCode();
         Assertions.assertThrows(
