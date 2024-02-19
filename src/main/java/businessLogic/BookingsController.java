@@ -49,7 +49,7 @@ public class BookingsController {
         });
 
         if (customer.getMembership()==null)
-             throw new RuntimeException(msgB.GetResourceValue("User_membership_not_valid"));	
+             throw new RuntimeException(msgB.GetResourceValue("User_membership_null"));	
         if (customer.getMembership().isExpired())
             throw new RuntimeException(msgB.GetResourceValue("User_membership_expired"));
         if (!customer.getMembership().isValidForInterval(c.getStartDate(), c.getEndDate()))
@@ -86,7 +86,7 @@ public class BookingsController {
         });
         
         if (customer.getMembership()==null)
-            throw new RuntimeException(msgB.GetResourceValue("User_membership_not_valid"));        	
+            throw new RuntimeException(msgB.GetResourceValue("User_membership_null"));        	
         if (customer.getMembership().isExpired())
             throw new RuntimeException(msgB.GetResourceValue("User_membership_expired"));
         if (!customer.getMembership().isValidForInterval(c.getStartDate(), c.getEndDate()))
