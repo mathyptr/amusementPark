@@ -37,11 +37,11 @@ public class SqlMembershipDAO implements MembershipDAO {
 		//Membership membership = null;
 		try {
 			if(type.equals("workdays"))
-				membership= (WorkdaysMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,1);
+				membership= (WorkdaysMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,0);
 			else if (type.equals("silver"))
-				membership=(SilverMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,1);
+				membership=(SilverMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,0);
 			else if (type.equals("gold"))
-				membership=(GoldMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,1);			
+				membership=(GoldMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,0);			
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block
@@ -76,6 +76,7 @@ public class SqlMembershipDAO implements MembershipDAO {
                 try {
 //                    membership = membershipStringToType.get(rs2.getString("type")).getConstructor(Membership.class, int.class).newInstance(membership, rs2.getInt("uses"));
                 	membership = membershipStringToType(membership,rs2.getString("type"));
+                	membership.setUses(rs2.getInt("uses"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

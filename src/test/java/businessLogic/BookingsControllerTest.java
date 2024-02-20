@@ -82,7 +82,8 @@ class BookingsControllerTest {
         	membershipclient=new String[]{"silver"};
         else
         	membershipclient=new String[]{"workdays"};        	
-        testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", membershipclient, LocalDate.now().plusYears(100));
+//        testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", membershipclient, LocalDate.now().plusYears(100));
+        testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", new String[]{"workdays","silver"}, LocalDate.now().plusYears(100));        
         testattraction1Id = attractionsController.addAttraction("Starlight", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01");
         testattraction2Id = attractionsController.addAttraction("Madness", 10, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "PTRMTH01");
     }
@@ -183,15 +184,15 @@ class BookingsControllerTest {
 
         int workC = attractionsController.addAttraction("Blackout", 10, workDay, workDay.plusHours(1), "PTRMTH01");
         int workC2 = attractionsController.addAttraction("Hysteria", 10, workDay.plusHours(2), workDay.plusHours(3), "PTRMTH01");
-//        int weekendC = attractionsController.addAttraction("Supremacy", 10, weekendDay, weekendDay.plusHours(1), "PTRMTH01");
+        int weekendC = attractionsController.addAttraction("Supremacy", 10, weekendDay, weekendDay.plusHours(1), "PTRMTH01");
 
         // Book the attractions
         bookingsController.bookAttraction(testCustomerFiscalCode, workC);
         bookingsController.bookAttraction(testCustomerFiscalCode, workC2);
-//        bookingsController.bookAttraction(testCustomerFiscalCode, weekendC);
+        bookingsController.bookAttraction(testCustomerFiscalCode, weekendC);
 
         HashMap<String, Integer> uses = customersController.getPerson(testCustomerFiscalCode).getMembership().getUses();
-        Assertions.assertEquals(uses.get("workdays"), 1);
-//        Assertions.assertEquals(uses.get("silver"), 2);
+        Assertions.assertEquals(uses.get("workdays"), 2);
+        Assertions.assertEquals(uses.get("silver"), 1);
     }
 }

@@ -30,6 +30,11 @@ public class SilverMembershipDecorator extends MembershipDecorator {
     }    
     
     @Override
+    public void setUses(int uses) {
+    	this.uses = uses;
+    }   
+        
+    @Override
     public String getUsesDescription() {
         MessagesBundle msgB = MessagesBundle.getInstance();      	
         return super.getUsesDescription() + msgB.GetResourceValue("Silver_uses") + uses + ", ";

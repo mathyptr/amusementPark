@@ -59,4 +59,9 @@ public class WorkdaysMembershipDecorator extends MembershipDecorator {
     public int getLocalUses() {
         return uses;
     }
+    @Override
+    public void setUses(int uses) {
+    	this.uses = uses;
+    }    
+        
 }
