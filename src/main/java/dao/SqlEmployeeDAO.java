@@ -2,7 +2,6 @@ package dao;
 
 import domainModel.Employee;
 import util.MessagesBundle;
-import db.dbManager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

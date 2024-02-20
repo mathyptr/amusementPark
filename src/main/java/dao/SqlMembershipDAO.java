@@ -1,7 +1,6 @@
 package dao;
 
 import domainModel.membership.*;
-import db.dbManager;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,9 +39,9 @@ public class SqlMembershipDAO implements MembershipDAO {
 			if(type.equals("workdays"))
 				membership= (WorkdaysMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,1);
 			else if (type.equals("silver"))
-				membership=(SilverMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,2);
+				membership=(SilverMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,1);
 			else if (type.equals("gold"))
-				membership=(GoldMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,2);			
+				membership=(GoldMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,1);			
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block
@@ -56,6 +55,7 @@ public class SqlMembershipDAO implements MembershipDAO {
     public Membership getOfCustomer(String fiscalCode) throws SQLException {
         Connection connection = dbManager.getConnection();
         Membership membership = null;
+
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM memberships WHERE customer = ?");
         ps.setString(1, fiscalCode);
         ResultSet rs = ps.executeQuery();

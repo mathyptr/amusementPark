@@ -1,6 +1,5 @@
 package dao;
 
-import db.dbManager;
 import domainModel.Attraction;
 import domainModel.Customer;
 import util.MessagesBundle;

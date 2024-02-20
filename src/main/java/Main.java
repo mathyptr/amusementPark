@@ -20,7 +20,7 @@ import dao.SqlMembershipDAO;
 import dao.SqlAttractionDAO;
 import dao.SqlCustomerDAO;
 import dao.SqlEmployeeDAO;
-import db.dbManager;
+import dao.dbManager;
 import domainModel.Customer;
 import util.MessagesBundle;
 

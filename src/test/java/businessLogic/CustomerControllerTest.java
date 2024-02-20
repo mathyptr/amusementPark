@@ -3,7 +3,7 @@ package businessLogic;
 import dao.CustomerDAO;
 import dao.SqlCustomerDAO;
 import dao.SqlMembershipDAO;
-import db.dbManager;
+import dao.dbManager;
 import domainModel.Customer;
 import domainModel.membership.EmptyMembership;
 import domainModel.membership.Membership;

@@ -1,7 +1,6 @@
 package businessLogic;
 
 import dao.*;
-import db.dbManager;
 import util.MessagesBundle;
 
 import org.junit.jupiter.api.Assertions;
