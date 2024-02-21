@@ -31,13 +31,13 @@ class GoldMembershipDecoratorTest {
 
     @Test
     public void when_checkingIsValidForInterval_With_badInterval_Expect_toReturnFalse() {
-        Membership m = new GoldMembershipDecorator(new EmptyMembership(LocalDate.now(), LocalDate.now().plusYears(1)));
+        Membership m = new GoldMembershipDecorator(new EmptyMembership(LocalDate.now(), LocalDate.now().plusDays(1)));
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
         LocalDateTime start = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        Assertions.assertFalse(m.isValidForInterval(start, start.plusHours(1)));
+        Assertions.assertFalse(m.isValidForInterval(start.plusDays(10), start.plusDays(20)));
 
     }
 }
