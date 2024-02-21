@@ -59,10 +59,12 @@ public abstract class MembershipDecorator implements Membership {
     public HashMap<String, Integer> getUses() {
         return this.membership.getUses();
     }
-    @Override    
+
+/*    @Override    
     public void setUses(int uses) {
 
     }   
+*/    
     @Override
     public float getPrice() {
         return this.membership.getPrice();

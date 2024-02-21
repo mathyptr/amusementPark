@@ -29,9 +29,10 @@ public class GoldMembershipDecorator extends MembershipDecorator {
     public int getLocalUses() {
         return uses;
     }    
-    public void setUses(int uses) {
+/*    public void setUses(int uses) {
     	this.uses = uses;
-    }    
+    }  
+*/    
     @Override
     public String getUsesDescription() {
         MessagesBundle msgB = MessagesBundle.getInstance();      	

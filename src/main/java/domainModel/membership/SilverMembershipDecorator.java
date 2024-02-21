@@ -29,10 +29,11 @@ public class SilverMembershipDecorator extends MembershipDecorator {
         return uses;
     }    
     
-    @Override
+/*    @Override
     public void setUses(int uses) {
     	this.uses = uses;
-    }   
+    } 
+*/    
         
     @Override
     public String getUsesDescription() {

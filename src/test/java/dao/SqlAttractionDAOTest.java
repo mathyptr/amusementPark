@@ -20,7 +20,6 @@ public class SqlAttractionDAOTest {
     static void initDb() throws SQLException, IOException {
         // Set up database
     	dbManager.setDatabase("amusementParkTest.db");
-//    	dbManager.initDatabase();
     }
 
     @BeforeEach
@@ -51,7 +50,6 @@ public class SqlAttractionDAOTest {
     public void When_GetAttractionByName_Expect_Success() throws SQLException {
     	Attraction attraction = attractionDAO.get(1);
         Assertions.assertEquals("Starlight", attraction.getName());
-//        Assertions.assertEquals("surname1", attraction.getEmployee());
         Assertions.assertEquals(50, attraction.getMaxCapacity());
     }
 

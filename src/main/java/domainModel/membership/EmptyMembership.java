@@ -59,9 +59,11 @@ public class EmptyMembership implements Membership {
     public String getUsesDescription() {
         return "";
     }
-    public void setUses(int uses) {
+    
+/*    public void setUses(int uses) {
 
-    }   
+    }
+*/
     @Override
     public HashMap<String, Integer> getUses() {
         return uses;

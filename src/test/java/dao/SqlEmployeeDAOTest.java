@@ -18,7 +18,6 @@ public class SqlEmployeeDAOTest {
     static void initDb() throws SQLException, IOException {
         // Set up database
     	dbManager.setDatabase("amusementParkTest.db");
-//    	dbManager.initDatabase();
     }    
 
     @BeforeEach

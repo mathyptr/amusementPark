@@ -32,7 +32,7 @@ public class SqlMembershipDAO implements MembershipDAO {
 	
 	
 	
-	private Membership membershipStringToType(Membership membership, String type)
+	private Membership membershipStringToTypeOld(Membership membership, String type)
 	{
 		//Membership membership = null;
 		try {
@@ -49,7 +49,18 @@ public class SqlMembershipDAO implements MembershipDAO {
 		}			
 		return membership;		
 	}
-	
+
+	private Class<? extends Membership> membershipStringToType(Membership membership, String type)
+	{
+		Class<? extends Membership> mClassConstruct = null;
+			if(type.equals("workdays"))
+				mClassConstruct= (WorkdaysMembershipDecorator.class);
+			else if (type.equals("silver"))
+				mClassConstruct=(SilverMembershipDecorator.class);
+			else if (type.equals("gold"))
+				mClassConstruct=(GoldMembershipDecorator.class);			
+		return  mClassConstruct;		
+	}	
 	
     @Override
     public Membership getOfCustomer(String fiscalCode) throws SQLException {
@@ -75,8 +86,14 @@ public class SqlMembershipDAO implements MembershipDAO {
             while (rs2.next()) {
                 try {
 //                    membership = membershipStringToType.get(rs2.getString("type")).getConstructor(Membership.class, int.class).newInstance(membership, rs2.getInt("uses"));
-                	membership = membershipStringToType(membership,rs2.getString("type"));
-                	membership.setUses(rs2.getInt("uses"));
+//                	membership = membershipStringToType(membership,rs2.getString("type"));
+//                	membership.setUses(rs2.getInt("uses"));
+                	
+                	Class<? extends Membership> membership1;
+                	membership1 =   membershipStringToType(membership,rs2.getString("type"));
+                	membership=		membership1.getConstructor(Membership.class, int.class).newInstance(membership, rs2.getInt("uses"));
+                	
+                	
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

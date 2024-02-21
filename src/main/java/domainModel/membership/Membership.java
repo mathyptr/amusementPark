@@ -8,7 +8,7 @@ import java.util.HashMap;
 public interface Membership {
 	 
     String getUsesDescription();
-    void setUses(int uses);
+//    void setUses(int uses);
     HashMap<String, Integer> getUses();
         
     boolean isExpired();
