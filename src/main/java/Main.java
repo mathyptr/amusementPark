@@ -3,7 +3,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +21,7 @@ import dao.SqlAttractionDAO;
 import dao.SqlCustomerDAO;
 import dao.SqlEmployeeDAO;
 import dao.dbManager;
+import domainModel.Attraction;
 import domainModel.Customer;
 import util.MessagesBundle;
 
@@ -59,7 +60,43 @@ public class Main
        // Reset autoincrement counters
        connection.prepareStatement("DELETE FROM sqlite_sequence").executeUpdate();
 	}
+	private static void Customer() throws Exception 
+	{	    
+		try {
+			dbManager.getConnection();
+		} catch (SQLException e) {
+			logger.error(e.getMessage());            
+		}
+		MembershipDAO membershipDAO = new SqlMembershipDAO();
+		EmployeeDAO employeeDAO= new SqlEmployeeDAO();      
+		CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
+		AttractionDAO attractionDAO = new SqlAttractionDAO(employeeDAO, customerDAO);        
 
+		CustomersController customersController = new CustomersController(customerDAO);
+		EmployeesController employeesController = new EmployeesController(employeeDAO);        
+		AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
+		BookingsController bookingsController = new BookingsController(attractionController, customersController, attractionDAO, membershipDAO);
+
+		logger.info(MessagesBundle.GetResourceValue("client_messages_p0"));
+		logger.info(MessagesBundle.GetResourceValue("client_messages_p1"));
+		
+		List<Attraction> listAttract = attractionController.getAll();
+		int nmaxAttraction=0;
+        for (Attraction attract : listAttract) {
+        	logger.info(attract.getId()+": "+attract.getName());
+        	nmaxAttraction++;
+        }
+        
+		logger.info(MessagesBundle.GetResourceValue("client_messages_p2"));        
+		bookingsController.bookAttraction("MRRSML01", listAttract.get(0).getId());
+		bookingsController.bookAttraction("MRRSML02", listAttract.get(1).getId());
+
+//		logger.info(customersController.getPerson("MRRSML01").getMembership().getUses());
+//		logger.info(customersController.getPerson("MRRSML01").getMembership().getUsesDescription());
+		
+		logger.info(MessagesBundle.GetResourceValue("client_messages_p3"));
+	}
+	
 	private static void Manager() throws Exception 
 	{	    
 		try {
@@ -87,22 +124,7 @@ public class Main
    
 		customersController.addPerson( "Samu","Marr", "MRRSML01", new String[]{"workdays","silver"}, LocalDate.now().plusYears(1));
 		customersController.addPerson( "Sam","Mar", "MRRSML02", new String[]{"workdays"}, LocalDate.now().plusYears(1));
-     
-		bookingsController.bookAttraction("MRRSML01", attraction1);
-		bookingsController.bookAttraction("MRRSML02", attraction2);       
-    
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    		
-		int nattraction=0;
-		try {
-			nattraction=attractionDAO.getNextID();
-		} catch (Exception e) {
-			logger.error(e.getMessage());  
-		}
-		logger.info("n attraction: "+Integer.toString(nattraction));
-   	
-		logger.info(customersController.getPerson("MRRSML01").getMembership().getUses());
-		logger.info(customersController.getPerson("MRRSML01").getMembership().getUsesDescription());
+       	
 		logger.info(customersController.getPerson("MRRSML01"));	
  }	
 	
@@ -115,5 +137,7 @@ public class Main
         SplashScreen();	       
         cleanDB();		
         Manager();		
+        Customer();
     }
+    
 }
