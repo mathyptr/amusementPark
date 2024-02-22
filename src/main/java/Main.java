@@ -59,59 +59,61 @@ public class Main
        // Reset autoincrement counters
        connection.prepareStatement("DELETE FROM sqlite_sequence").executeUpdate();
 	}
+
+	private static void Manager() throws Exception 
+	{	    
+		try {
+			dbManager.getConnection();
+		} catch (SQLException e) {
+			logger.error(e.getMessage());            
+		}
+		
+		MembershipDAO membershipDAO = new SqlMembershipDAO();
+		EmployeeDAO employeeDAO= new SqlEmployeeDAO();      
+		CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
+		AttractionDAO attractionDAO = new SqlAttractionDAO(employeeDAO, customerDAO);        
+
+		CustomersController customersController = new CustomersController(customerDAO);
+		EmployeesController employeesController = new EmployeesController(employeeDAO);        
+		AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
+		BookingsController bookingsController = new BookingsController(attractionController, customersController, attractionDAO, membershipDAO);
+
+		employeesController.addPerson("Mathy", "Pat", "PTRMTH01", 1150);
+		employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
+
+    // Add an attraction
+		int attraction1=attractionController.addAttraction("Pressure", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2), "PTRMTH01");
+		int attraction2=attractionController.addAttraction("Supremacy", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(6), "PTRMTH02");
+   
+		customersController.addPerson( "Samu","Marr", "MRRSML01", new String[]{"workdays","silver"}, LocalDate.now().plusYears(1));
+		customersController.addPerson( "Sam","Mar", "MRRSML02", new String[]{"workdays"}, LocalDate.now().plusYears(1));
+     
+		bookingsController.bookAttraction("MRRSML01", attraction1);
+		bookingsController.bookAttraction("MRRSML02", attraction2);       
+    
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    		
+		int nattraction=0;
+		try {
+			nattraction=attractionDAO.getNextID();
+		} catch (Exception e) {
+			logger.error(e.getMessage());  
+		}
+		logger.info("n attraction: "+Integer.toString(nattraction));
+   	
+		logger.info(customersController.getPerson("MRRSML01").getMembership().getUses());
+		logger.info(customersController.getPerson("MRRSML01").getMembership().getUsesDescription());
+		logger.info(customersController.getPerson("MRRSML01"));	
+ }	
 	
 	private static final Logger logger = LogManager.getLogger("Main");
     public static void main( String[] args ) throws Exception
     {
-        dbManager.setDatabase("amusepark.db");
-        MessagesBundle.SetLanguage("it", "IT");
-        try {
-        	dbManager.getConnection();
-        } catch (SQLException e) {
-    		logger.error(e.getMessage());            
-        }
-        
-        MessagesBundle msgB = MessagesBundle.getInstance();     
-        
-        SplashScreen();	
-        
-        cleanDB();
-        MembershipDAO membershipDAO = new SqlMembershipDAO();
-        EmployeeDAO employeeDAO= new SqlEmployeeDAO();      
-        CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
-        AttractionDAO attractionDAO = new SqlAttractionDAO(employeeDAO, customerDAO);        
-
-        CustomersController customersController = new CustomersController(customerDAO);
-        EmployeesController employeesController = new EmployeesController(employeeDAO);        
-        AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
-        BookingsController bookingsController = new BookingsController(attractionController, customersController, attractionDAO, membershipDAO);
-
-        employeesController.addPerson("Mathy", "Pat", "PTRMTH01", 1150);
-        employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
-
-        // Add an attraction
-        int attraction1=attractionController.addAttraction("Pressure", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2), "PTRMTH01");
-        int attraction2=attractionController.addAttraction("Supremacy", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(6), "PTRMTH02");
-       
-        customersController.addPerson( "Samu","Marr", "MRRSML01", new String[]{"workdays","silver"}, LocalDate.now().plusYears(1));
-        customersController.addPerson( "Sam","Mar", "MRRSML02", new String[]{"workdays"}, LocalDate.now().plusYears(1));
-         
-        bookingsController.bookAttraction("MRRSML01", attraction1);
-        bookingsController.bookAttraction("MRRSML02", attraction2);       
-        
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        		
-        int nattraction=0;
-        try {
-        	nattraction=attractionDAO.getNextID();
-		} catch (Exception e) {
-			logger.error(e.getMessage());  
-		}
-        logger.info("n attraction: "+Integer.toString(nattraction));
-       	
-		logger.info(customersController.getPerson("MRRSML01").getMembership().getUses());
-		logger.info(customersController.getPerson("MRRSML01").getMembership().getUsesDescription());
-		logger.info(customersController.getPerson("MRRSML01"));	
-		
+		MessagesBundle msgB = MessagesBundle.getInstance(); 	
+		dbManager.setDatabase("amusepark.db");
+		MessagesBundle.SetLanguage("it", "IT");    	
+        SplashScreen();	       
+        cleanDB();		
+        Manager();		
     }
 }
