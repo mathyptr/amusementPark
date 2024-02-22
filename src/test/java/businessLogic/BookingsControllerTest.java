@@ -182,8 +182,8 @@ class BookingsControllerTest {
         c.add(Calendar.DATE, 7);
         LocalDateTime weekendDay = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        int workC = attractionsController.addAttraction("Blackout", 10, workDay, workDay.plusHours(1), "PTRMTH01");
-        int workC2 = attractionsController.addAttraction("Hysteria", 10, workDay.plusHours(2), workDay.plusHours(3), "PTRMTH01");
+        int workC = attractionsController.addAttraction("Blackout", 10, workDay.plusHours(10), workDay.plusHours(11), "PTRMTH01");
+        int workC2 = attractionsController.addAttraction("Hysteria", 10, workDay.plusHours(12), workDay.plusHours(13), "PTRMTH01");
         int weekendC = attractionsController.addAttraction("Supremacy", 10, weekendDay, weekendDay.plusHours(1), "PTRMTH01");
 
         // Book the attractions
