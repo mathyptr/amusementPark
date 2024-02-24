@@ -76,8 +76,8 @@ public class Main
 		EmployeesController employeesController = new EmployeesController(employeeDAO);        
 		AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
 		BookingsController bookingsController = new BookingsController(attractionController, customersController, attractionDAO, membershipDAO);
-
-		logger.info(MessagesBundle.GetResourceValue("client_messages_p0"));
+		String customerCF="MRRSML01";
+		logger.info(MessagesBundle.GetResourceValue("client_messages_p0")+customersController.getPerson(customerCF).getName());
 		logger.info(MessagesBundle.GetResourceValue("client_messages_p1"));
 		
 		List<Attraction> listAttract = attractionController.getAll();
@@ -88,14 +88,45 @@ public class Main
         }
         
 		logger.info(MessagesBundle.GetResourceValue("client_messages_p2"));        
-		bookingsController.bookAttraction("MRRSML01", listAttract.get(0).getId());
+		bookingsController.bookAttraction(customerCF, listAttract.get(0).getId());
 		bookingsController.bookAttraction("MRRSML02", listAttract.get(1).getId());
-
-//		logger.info(customersController.getPerson("MRRSML01").getMembership().getUses());
-//		logger.info(customersController.getPerson("MRRSML01").getMembership().getUsesDescription());
-		
+	
 		logger.info(MessagesBundle.GetResourceValue("client_messages_p3"));
 	}
+
+	private static void Employee() throws Exception 
+	{	    
+		try {
+			dbManager.getConnection();
+		} catch (SQLException e) {
+			logger.error(e.getMessage());            
+		}
+		MembershipDAO membershipDAO = new SqlMembershipDAO();
+		EmployeeDAO employeeDAO= new SqlEmployeeDAO();      
+		CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
+		AttractionDAO attractionDAO = new SqlAttractionDAO(employeeDAO, customerDAO);        
+
+		CustomersController customersController = new CustomersController(customerDAO);
+		EmployeesController employeesController = new EmployeesController(employeeDAO);        
+		AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
+
+		String employeeCF="PTRMTH01";
+		logger.info(MessagesBundle.GetResourceValue("employee_messages_p0")+employeesController.getPerson(employeeCF).getName());
+		logger.info(MessagesBundle.GetResourceValue("employee_messages_p1"));
+
+		List<Attraction> listAttract = attractionController.getAll();
+		int nmaxAttraction=0;
+        for (Attraction attract : listAttract) {        	
+    		logger.info(attract.getId()+": "+attract.getName());
+        	if(attract.getEmployeeFiscalCode().equals(employeeCF))
+        		logger.info(MessagesBundle.GetResourceValue("employee_messages_p2"));
+        	nmaxAttraction++;
+        }
+             
+		logger.info(MessagesBundle.GetResourceValue("employee_messages_p3"));
+	}
+		
+	
 	
 	private static void Manager() throws Exception 
 	{	    
@@ -119,9 +150,9 @@ public class Main
 		employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
 
     // Add an attraction
-		int attraction1=attractionController.addAttraction("Pressure", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2), "PTRMTH01");
-		int attraction2=attractionController.addAttraction("Supremacy", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(6), "PTRMTH02");
-   
+		int attraction1=attractionController.addAttraction("Pressure", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(5), "PTRMTH01");
+		int attraction2=attractionController.addAttraction("Supremacy", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(6), "PTRMTH02");
+		int attraction3=attractionController.addAttraction("Uprising", 10,  LocalDateTime.now().plusHours(10), LocalDateTime.now().plusHours(14), "PTRMTH01");
 		customersController.addPerson( "Samu","Marr", "MRRSML01", new String[]{"workdays","silver"}, LocalDate.now().plusYears(1));
 		customersController.addPerson( "Sam","Mar", "MRRSML02", new String[]{"workdays"}, LocalDate.now().plusYears(1));
        	
@@ -136,7 +167,8 @@ public class Main
 		MessagesBundle.SetLanguage("it", "IT");    	
         SplashScreen();	       
         cleanDB();		
-        Manager();		
+        Manager();
+        Employee();
         Customer();
     }
     

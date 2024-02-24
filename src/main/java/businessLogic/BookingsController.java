@@ -26,7 +26,7 @@ public class BookingsController {
 
     /**
      * Books an attraction for the given customer
-         */
+    */
     public void bookAttraction(String customerFiscalCode, int attractionId) throws Exception {
         MessagesBundle msgB = MessagesBundle.getInstance();    	
     	Attraction c = attractionsController.getAttraction(attractionId);

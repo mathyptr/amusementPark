@@ -19,25 +19,43 @@ public class AttractionsController {
         this.employeeController = employeeController;
         this.attractionDAO = attractionDAO;
     }
+    
     /**
-     * Returns the given Attraction
-     *   
+     * Returns an Attraction
+     *
+     * @return The Attraction
+     *
+     * @throws Exception bubbles up exceptions
      */
     public Attraction getAttraction(int id) throws Exception {
         return attractionDAO.get(id);
     }
 
     /**
-     * Returns a read-only list of Attraction
-    
+     * Returns a list of Attraction
+     *
+     * @return The list of Attraction
+     *
+     * @throws Exception bubbles up exceptions
      */
     public List<Attraction> getAll() throws Exception {
         return unmodifiableList(this.attractionDAO.getAll());
     }
+    
     /**
-     * Adds a new Attraction
+     * Adds a new Attraction to the list
      *
-    */
+     * @param name              The name of the Attraction
+     * @param maxCapacity       The maximum attendees for the Attraction
+     * @param startDate         The start date of the Attraction
+     * @param endDate           The end date of the Attraction
+     * @param trainerFiscalCode The fiscal code of the trainer for the Attraction
+     *
+     * @return The id of the newly created course
+     *
+     * @throws Exception If the employee is not found, bubbles up exceptions
+     * @throws IllegalArgumentException If the employee is already occupied in the given time range
+     */
     public int addAttraction(String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode) throws Exception {
         MessagesBundle msgB = MessagesBundle.getInstance();    	
     	Employee employee = employeeController.getPerson(employeeFiscalCode);
@@ -59,8 +77,14 @@ public class AttractionsController {
     }
 
     /**
-     * Deletes the given Attraction 
-     */
+    * Deletes the given Attraction from the list
+    *
+    * @param id The id of the Attraction to delete
+    *
+    * @return true if successful, false otherwise
+    *
+    * @throws Exception bubbles up exceptions of Co
+    */
     public boolean removeAttraction(int id) throws Exception {
         return attractionDAO.delete(id);
     }
