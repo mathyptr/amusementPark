@@ -64,14 +64,14 @@ public class SqlAttractionDAOTest {
     	LocalDateTime start_date,end_date; 	
     	start_date=LocalDateTime.now().plusMonths(1) ;
     	end_date=LocalDateTime.now().plusMonths(4);
-    	Attraction attraction = new Attraction(3,"Blackout",100,start_date,end_date,"PTRMTH");
+    	Attraction attraction = new Attraction(3,"Blackout",100,start_date,end_date,"PTRMTH","Blackout");
         Assertions.assertDoesNotThrow(() -> attractionDAO.insert(attraction));
         Assertions.assertEquals(3, attractionDAO.getAll().size());
     }
 
     @Test
     public void When_UpdateAttraction_Expect_Success() throws SQLException {
-    	Attraction attraction = new Attraction(2,"Hysteria",90,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4),"PTRMTH");
+    	Attraction attraction = new Attraction(2,"Hysteria",90,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4),"PTRMTH","Hysteria");
     	Assertions.assertDoesNotThrow(() -> attractionDAO.update(attraction));
         Assertions.assertEquals(2, attractionDAO.getAll().size());
         Assertions.assertEquals("Hysteria", attractionDAO.get(2).getName());

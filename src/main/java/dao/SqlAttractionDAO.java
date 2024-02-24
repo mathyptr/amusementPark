@@ -39,7 +39,9 @@ public class SqlAttractionDAO implements AttractionDAO {
                     rs.getInt("max_capacity"),
                     LocalDateTime.parse(rs.getString("start_date"),dataTimeFormat),
                     LocalDateTime.parse(rs.getString("end_date"),dataTimeFormat),
-                    rs.getString("employee")
+                    rs.getString("employee"),
+                    rs.getString("description"),
+                    rs.getString("status")
                     );            		            
         }
 
@@ -67,7 +69,9 @@ public class SqlAttractionDAO implements AttractionDAO {
                     rs.getInt("max_capacity"),
                     LocalDateTime.parse(rs.getString("start_date"),dataTimeFormat),
                     LocalDateTime.parse(rs.getString("end_date"),dataTimeFormat),
-                    rs.getString("employee")                    
+                    rs.getString("employee"),
+                    rs.getString("description"),
+                    rs.getString("status")
         		);        			
            
         		attractions.add(c);
@@ -84,13 +88,17 @@ public class SqlAttractionDAO implements AttractionDAO {
     	logger.debug(MessagesBundle.GetResourceValue("debug_attraction_data_insert")+attraction.getName());    	
         Connection connection = dbManager.getConnection();
         
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO attractions (name, max_capacity, start_date, end_date, employee) VALUES (?, ?, ?, ?, ?)");
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO attractions (name, max_capacity, start_date, end_date, employee,description,status) VALUES (?, ?, ?, ?, ?,?,?)");
         // id is auto-incremented, so it's not needed
         ps.setString(1, attraction.getName());
         ps.setInt(2, attraction.getMaxCapacity());
         ps.setString(3, dataTimeFormat.format(attraction.getStartDate()));
         ps.setString(4, dataTimeFormat.format(attraction.getEndDate()));
         ps.setString(5, attraction.getEmployeeFiscalCode());
+        
+        ps.setString(6,attraction.getDescription());
+        ps.setString(7,attraction.getStatus());
+        
         ps.executeUpdate();
 
         ps.close();
@@ -102,13 +110,18 @@ public class SqlAttractionDAO implements AttractionDAO {
     public void update(Attraction attraction) throws SQLException {
     	logger.debug(MessagesBundle.GetResourceValue("debug_attraction_data_update")+attraction.getName());    	    	
         Connection connection = dbManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement("UPDATE attractions SET name = ?, max_capacity = ?, start_date = ?, end_date = ?, employee = ? WHERE id = ?");
+        PreparedStatement ps = connection.prepareStatement("UPDATE attractions SET name = ?, max_capacity = ?, start_date = ?, end_date = ?, employee = ?, description = ?, status = ? WHERE id = ?");
         ps.setString(1, attraction.getName());
         ps.setInt(2, attraction.getMaxCapacity());
         ps.setString(3, dataTimeFormat.format(attraction.getStartDate()));
         ps.setString(4, dataTimeFormat.format(attraction.getEndDate()));
         ps.setString(5, attraction.getEmployeeFiscalCode());
         ps.setInt(6, attraction.getId());
+        
+        ps.setString(6,attraction.getDescription());
+        ps.setString(7,attraction.getStatus());
+ 
+        
         ps.executeUpdate();
 
         ps.close();

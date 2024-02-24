@@ -150,9 +150,9 @@ public class Main
 		employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
 
     // Add an attraction
-		int attraction1=attractionController.addAttraction("Pressure", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(5), "PTRMTH01");
-		int attraction2=attractionController.addAttraction("Supremacy", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(6), "PTRMTH02");
-		int attraction3=attractionController.addAttraction("Uprising", 10,  LocalDateTime.now().plusHours(10), LocalDateTime.now().plusHours(14), "PTRMTH01");
+		int attraction1=attractionController.addAttraction("Pressure", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01","Pressure");
+		int attraction2=attractionController.addAttraction("Supremacy", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(6), "PTRMTH02","Supremacy");
+		int attraction3=attractionController.addAttraction("Uprising", 10,  LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(44), "PTRMTH01","Uprising");
 		customersController.addPerson( "Samu","Marr", "MRRSML01", new String[]{"workdays","silver"}, LocalDate.now().plusYears(1));
 		customersController.addPerson( "Sam","Mar", "MRRSML02", new String[]{"workdays"}, LocalDate.now().plusYears(1));
        	

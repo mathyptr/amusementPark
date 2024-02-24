@@ -59,14 +59,14 @@ class AttractionControllerTest {
         employeesController.addPerson("Sam","Ma","MRNSML2", 650);
         employeesController.addPerson("Sa","Marr","MRNSML3", 850);        
         // Add Attraction
-        attractionsController.addAttraction("Pressure", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2), "MRNSML1");
+        attractionsController.addAttraction("Pressure", 10, LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2), "MRNSML1","Pressure");
         // Add non overlapping Attraction with same employee
-        attractionsController.addAttraction("Supremacy", 10, LocalDateTime.now().plusHours(5), LocalDateTime.now().plusHours(6), "MRNSML1");
+        attractionsController.addAttraction("Supremacy", 10, LocalDateTime.now().plusHours(5), LocalDateTime.now().plusHours(6), "MRNSML1","Supremacy");
 
         // Add overlapping Attraction with same employee
         Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> attractionsController.addAttraction("Uprising", 10,  LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(14), "MRNSML1"),
+                () -> attractionsController.addAttraction("Uprising", 10,  LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(14), "MRNSML1","Uprising"),
                 "Expected addAttraction() to throw!!!"
         );
     }

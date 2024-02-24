@@ -13,6 +13,8 @@ import util.MessagesBundle;
 public class Attraction {
     private final Integer id;
     private final String name;
+    private String description;
+    private String status;
     private final int maxCapacity;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
@@ -20,11 +22,13 @@ public class Attraction {
 	private final Logger logger = LogManager.getLogger("Attraction.class");    
 //    private final Employee employee;  
     
-    public Attraction(int id, String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode) {
+    public Attraction(int id, String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description, String status) {
 
         this.employeeFiscalCode = employeeFiscalCode;
     	
     	this.name = name;
+    	this.description = description;
+    	this.status = status;
         this.maxCapacity = maxCapacity;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -64,12 +68,20 @@ public class Attraction {
     public LocalDateTime getEndDate() {
         return endDate;
     }
-//MATHY Realizziamo anche un metodo che ritorna il Codice Fiscale dell'addetto assegnato all'attrazione
     public String getEmployeeFiscalCode() {
         return employeeFiscalCode;
     }
-  //MATHY Realizziamo anche un metodo che associa l'addetto assegnato all'attrazione
-    /*    public  setEmployee(Employee employee) {
-		this.employee = employee;
-        }*/
+
+    public String getDescription() {
+        return description;
+    }
+       
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+    	this.status = status;
+    }
+    
 }

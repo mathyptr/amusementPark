@@ -30,7 +30,19 @@ public class AttractionsController {
     public Attraction getAttraction(int id) throws Exception {
         return attractionDAO.get(id);
     }
-
+    /**
+     * 
+     *
+     * @return The Attraction
+     *
+     * @throws Exception bubbles up exceptions
+     */
+    public void  toggleAttraction(int id) throws Exception {
+    	if (attractionDAO.get(id).getStatus()=="ok")
+    		attractionDAO.get(id).setStatus("ko");
+    	else
+    		attractionDAO.get(id).setStatus("ko");
+    }
     /**
      * Returns a list of Attraction
      *
@@ -56,7 +68,7 @@ public class AttractionsController {
      * @throws Exception If the employee is not found, bubbles up exceptions
      * @throws IllegalArgumentException If the employee is already occupied in the given time range
      */
-    public int addAttraction(String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode) throws Exception {
+    public int addAttraction(String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description) throws Exception {
         MessagesBundle msgB = MessagesBundle.getInstance();    	
     	Employee employee = employeeController.getPerson(employeeFiscalCode);
         if (employee == null)
@@ -71,7 +83,7 @@ public class AttractionsController {
             }
         }
 
-        Attraction attract = new Attraction(attractionDAO.getNextID(), name, maxCapacity, startDate, endDate, employee.getFiscalCode());
+        Attraction attract = new Attraction(attractionDAO.getNextID(), name, maxCapacity, startDate, endDate, employee.getFiscalCode(), description, "ok");
         attractionDAO.insert(attract);
         return attract.getId();
     }
