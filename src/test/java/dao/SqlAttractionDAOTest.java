@@ -39,8 +39,8 @@ public class SqlAttractionDAOTest {
         connection.prepareStatement("DELETE FROM attractions").executeUpdate();
         
         // Insert some test data
-        connection.prepareStatement("INSERT INTO attractions values (1,'Starlight',50, '01/01/2023 08:00','31/12/2023 18:00','PTRMTH','Starlight','ok') ").executeUpdate();
-        connection.prepareStatement("INSERT INTO attractions values (2,'Madness',60,'01/02/2023 08:00','01/11/2023 18:00','PTRMTH','Madness','ok')").executeUpdate();
+        connection.prepareStatement("INSERT INTO attractions values (1,'Starlight',50,5, '01/01/2023 08:00','31/12/2023 18:00','PTRMTH','Starlight','ok') ").executeUpdate();
+        connection.prepareStatement("INSERT INTO attractions values (2,'Madness',60, 10,'01/02/2023 08:00','01/11/2023 18:00','PTRMTH','Madness','ok')").executeUpdate();
     }
 
     @Test
