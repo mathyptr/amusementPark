@@ -96,15 +96,16 @@ public class SqlAttractionDAO implements AttractionDAO {
     	logger.debug(msgB.GetResourceValue("debug_attraction_data_insert")+attraction.getName());    	
         Connection connection = db.getConnection();
         
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO attractions (name, max_capacity, start_date, end_date, employee,description,status) VALUES (?, ?, ?, ?, ?,?,?)");
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO attractions (name, max_capacity, adrenaline, start_date, end_date, employee,description,status) VALUES (?, ?, ?, ?, ?, ?,?,?)");
         // id is auto-incremented, so it's not needed
         ps.setString(1, attraction.getName());
         ps.setInt(2, attraction.getMaxCapacity());
-        ps.setString(3, dataTimeFormat.format(attraction.getStartDate()));
-        ps.setString(4, dataTimeFormat.format(attraction.getEndDate()));
-        ps.setString(5, attraction.getEmployeeFiscalCode());        
-        ps.setString(6,attraction.getDescription());
-        ps.setString(7,attraction.getStatus());
+        ps.setInt(3, attraction.getAdrenaline());
+        ps.setString(4, dataTimeFormat.format(attraction.getStartDate()));
+        ps.setString(5, dataTimeFormat.format(attraction.getEndDate()));
+        ps.setString(6, attraction.getEmployeeFiscalCode());        
+        ps.setString(7,attraction.getDescription());
+        ps.setString(8,attraction.getStatus());
         
         ps.executeUpdate();
 
@@ -117,15 +118,16 @@ public class SqlAttractionDAO implements AttractionDAO {
     public void update(Attraction attraction) throws SQLException {
     	logger.debug(msgB.GetResourceValue("debug_attraction_data_update")+attraction.getName());    	    	
         Connection connection = db.getConnection();
-        PreparedStatement ps = connection.prepareStatement("UPDATE attractions SET name = ?, max_capacity = ?, start_date = ?, end_date = ?, employee = ?, description = ?, status = ? WHERE id = ?");
+        PreparedStatement ps = connection.prepareStatement("UPDATE attractions SET name = ?, max_capacity = ?, adrenaline = ?, start_date = ?, end_date = ?, employee = ?, description = ?, status = ? WHERE id = ?");
         ps.setString(1, attraction.getName());
         ps.setInt(2, attraction.getMaxCapacity());
-        ps.setString(3, dataTimeFormat.format(attraction.getStartDate()));
-        ps.setString(4, dataTimeFormat.format(attraction.getEndDate()));
-        ps.setString(5, attraction.getEmployeeFiscalCode());
-        ps.setString(6,attraction.getDescription());
-        ps.setString(7,attraction.getStatus());       
-        ps.setInt(8, attraction.getId());     
+        ps.setInt(3, attraction.getAdrenaline());
+        ps.setString(4, dataTimeFormat.format(attraction.getStartDate()));
+        ps.setString(5, dataTimeFormat.format(attraction.getEndDate()));
+        ps.setString(6, attraction.getEmployeeFiscalCode());
+        ps.setString(7,attraction.getDescription());
+        ps.setString(8,attraction.getStatus());       
+        ps.setInt(9, attraction.getId());     
         
         ps.executeUpdate();
 
