@@ -15,13 +15,14 @@ public class Attraction {
     private String description;
     private String status;
     private final int maxCapacity;
+    private int adrenaline;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
     private final String employeeFiscalCode;
 	private final Logger logger = LogManager.getLogger("Attraction.class");    
 
     
-    public Attraction(int id, String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description, String status) {
+    public Attraction(int id, String name, int maxCapacity, int andrenaline, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description, String status) {
 
         this.employeeFiscalCode = employeeFiscalCode;
     	
@@ -29,6 +30,7 @@ public class Attraction {
     	this.description = description;
     	this.status = status;
         this.maxCapacity = maxCapacity;
+        this.adrenaline = adrenaline;
         this.startDate = startDate;
         this.endDate = endDate;
         this.id = id;
@@ -58,6 +60,10 @@ public class Attraction {
 
     public int getMaxCapacity() {
         return maxCapacity;
+    }
+    
+    public int getAdrenaline() {
+    	return adrenaline;
     }
 
     public LocalDateTime getStartDate() {

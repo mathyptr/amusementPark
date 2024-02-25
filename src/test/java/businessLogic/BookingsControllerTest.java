@@ -84,8 +84,8 @@ class BookingsControllerTest {
         	membershipclient=new String[]{"workdays"};        	
 //        testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", membershipclient, LocalDate.now().plusYears(100));
         testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", new String[]{"workdays","silver"}, LocalDate.now().plusYears(100));        
-        testattraction1Id = attractionsController.addAttraction("Starlight", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01","Starlight");
-        testattraction2Id = attractionsController.addAttraction("Madness", 10, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "PTRMTH01","Madness");
+        testattraction1Id = attractionsController.addAttraction("Starlight", 10, 5, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01","Starlight");
+        testattraction2Id = attractionsController.addAttraction("Madness", 10, 8, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "PTRMTH01","Madness");
     }
 
 
@@ -101,7 +101,7 @@ class BookingsControllerTest {
 
     @Test
     public void When_BookingButAlreadyBookedInSameTime_Expected_Exception() throws Exception {
-        int id = attractionsController.addAttraction("Blackout", 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH02","Blackout");
+        int id = attractionsController.addAttraction("Blackout", 10, 10, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH02","Blackout");
         bookingsController.bookAttraction(testCustomerFiscalCode, testattraction1Id);
         Assertions.assertThrows(
                 RuntimeException.class,
@@ -112,7 +112,7 @@ class BookingsControllerTest {
 
     @Test
     public void When_BookingButAttractionFull_Expected_RuntimeException() throws Exception {
-        int attractionId = attractionsController.addAttraction("Blackout", 0, LocalDateTime.now().plusHours(9), LocalDateTime.now().plusHours(10), "PTRMTH01","Blackout");
+        int attractionId = attractionsController.addAttraction("Blackout", 0, 10, LocalDateTime.now().plusHours(9), LocalDateTime.now().plusHours(10), "PTRMTH01","Blackout");
 
         Assertions.assertThrows(
                 RuntimeException.class,
@@ -181,9 +181,9 @@ class BookingsControllerTest {
         c.add(Calendar.DATE, 7);
         LocalDateTime weekendDay = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        int workC = attractionsController.addAttraction("Blackout", 10, workDay.plusHours(10), workDay.plusHours(11), "PTRMTH01","Blackout");
-        int workC2 = attractionsController.addAttraction("Hysteria", 10, workDay.plusHours(12), workDay.plusHours(13), "PTRMTH01","Hysteria");
-        int weekendC = attractionsController.addAttraction("Supremacy", 10, weekendDay, weekendDay.plusHours(1), "PTRMTH01","Supremacy");
+        int workC = attractionsController.addAttraction("Blackout", 10, 10,  workDay.plusHours(10), workDay.plusHours(11), "PTRMTH01","Blackout");
+        int workC2 = attractionsController.addAttraction("Hysteria", 10, 15, workDay.plusHours(12), workDay.plusHours(13), "PTRMTH01","Hysteria");
+        int weekendC = attractionsController.addAttraction("Supremacy", 10, 2, weekendDay, weekendDay.plusHours(1), "PTRMTH01","Supremacy");
 
         // Book the attractions
         bookingsController.bookAttraction(testCustomerFiscalCode, workC);

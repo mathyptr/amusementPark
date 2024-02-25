@@ -68,7 +68,7 @@ public class AttractionsController {
      * @throws Exception If the employee is not found, bubbles up exceptions
      * @throws IllegalArgumentException If the employee is already occupied in the given time range
      */
-    public int addAttraction(String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description) throws Exception {
+    public int addAttraction(String name, int maxCapacity, int adrenaline, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description) throws Exception {
         MessagesBundle msgB = MessagesBundle.getInstance();    	
     	Employee employee = employeeController.getPerson(employeeFiscalCode);
         if (employee == null)
@@ -83,7 +83,7 @@ public class AttractionsController {
             }
         }
 
-        Attraction attract = new Attraction(attractionDAO.getNextID(), name, maxCapacity, startDate, endDate, employee.getFiscalCode(), description, "ok");
+        Attraction attract = new Attraction(attractionDAO.getNextID(), name, maxCapacity, adrenaline, startDate, endDate, employee.getFiscalCode(), description, "ok");
         attractionDAO.insert(attract);
         return attract.getId();
     }
