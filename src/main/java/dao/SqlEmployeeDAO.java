@@ -12,15 +12,17 @@ import org.apache.logging.log4j.Logger;
 public class SqlEmployeeDAO implements EmployeeDAO {
 	private final Logger logger = LogManager.getLogger("SqlEmployeeDAO");
 	private MessagesBundle msgB;
+	private dbManager db;
 	
 	public SqlEmployeeDAO() {
         this.msgB = MessagesBundle.getInstance(); 
+        this.db = dbManager.getInstance();
     }
 	
     @Override
     public void insert(Employee employee) throws SQLException {
     	logger.debug(msgB.GetResourceValue("debug_employee_data_insert")+employee.toString());    	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT INTO employees (fiscal_code, name, surname, salary) VALUES (?, ?, ?, ?)");
         ps.setString(1, employee.getFiscalCode());
         ps.setString(2, employee.getName());
@@ -28,13 +30,13 @@ public class SqlEmployeeDAO implements EmployeeDAO {
         ps.setFloat(4, employee.getSalary());
         ps.executeUpdate();
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
     }
 
     @Override
     public void update(Employee employee) throws SQLException {
     	logger.debug(msgB.GetResourceValue("debug_employee_data_update")+employee.toString());    	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE employees SET name = ?, surname = ?, salary = ? WHERE fiscal_code = ?");
         ps.setString(1, employee.getName());
         ps.setString(2, employee.getSurname());
@@ -42,23 +44,23 @@ public class SqlEmployeeDAO implements EmployeeDAO {
         ps.setString(4, employee.getFiscalCode());
         ps.executeUpdate();
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
     }
 
     @Override
     public boolean delete(String fiscalCode) throws SQLException {
     	logger.debug(msgB.GetResourceValue("debug_employee_data_delete")+fiscalCode);    	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM employees WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
         int rows = ps.executeUpdate();
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return rows > 0;
     }
     @Override
     public Employee get(String fiscalCode) throws SQLException {    	
-        Connection con = dbManager.getConnection();
+        Connection con = db.getConnection();
         Employee employee = null;
         PreparedStatement ps = con.prepareStatement("SELECT * FROM employees WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
@@ -75,7 +77,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
 
         rs.close();
         ps.close();
-        dbManager.closeConnection(con);
+        db.closeConnection(con);
         if(employee!=null)
         	logger.debug(msgB.GetResourceValue("debug_employee_data")+employee.toString());
         else
@@ -85,7 +87,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
 
     @Override
     public List<Employee> getAll() throws SQLException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         List<Employee> employees = new ArrayList<>();
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM employees");

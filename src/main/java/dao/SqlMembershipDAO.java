@@ -15,6 +15,12 @@ public class SqlMembershipDAO implements MembershipDAO {
 
     private static final String TimeFormat = "dd/MM/yyyy";
     DateTimeFormatter dataTimeFormat = DateTimeFormatter.ofPattern(TimeFormat);
+    
+    private dbManager db;
+    
+    public SqlMembershipDAO() {
+    	this.db = dbManager.getInstance();
+    }
 	
 	private String membershipTypeToString(Membership membership)
 	{
@@ -64,7 +70,7 @@ public class SqlMembershipDAO implements MembershipDAO {
 	
     @Override
     public Membership getOfCustomer(String fiscalCode) throws SQLException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         Membership membership = null;
 
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM memberships WHERE customer = ?");
@@ -105,13 +111,13 @@ public class SqlMembershipDAO implements MembershipDAO {
 
         rs.close();
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return membership;
     }
 
 	@Override
     public void insertOfCustomer(String fiscalCode, Membership membership) throws SQLException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement insertMembership = connection.prepareStatement("INSERT INTO memberships (customer, valid_from, valid_until) VALUES (?, ?, ?)");
         insertMembership.setString(1, fiscalCode);
         insertMembership.setString(2, dataTimeFormat.format(membership.getValidFrom()));//.toString());
@@ -121,12 +127,12 @@ public class SqlMembershipDAO implements MembershipDAO {
 
         insertExtensionsOfCustomer(fiscalCode, membership);
 
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
     }
 
     @Override
     public void updateOfCustomer(String fiscalCode, Membership membership) throws SQLException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement updateMembership = connection.prepareStatement("UPDATE memberships SET valid_from = ?, valid_until = ? WHERE customer = ?");
         updateMembership.setString(1, dataTimeFormat.format(membership.getValidFrom()));//.toString());
         updateMembership.setString(2, dataTimeFormat.format(membership.getValidUntil()));//.toString());
@@ -137,23 +143,23 @@ public class SqlMembershipDAO implements MembershipDAO {
         deleteExtensionsOfCustomer(fiscalCode);
         insertExtensionsOfCustomer(fiscalCode, membership);
 
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
     }
 
     @Override
     public boolean deleteOfCustomer(String fiscalCode) throws SQLException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement deleteMembership = connection.prepareStatement("DELETE FROM memberships WHERE customer = ?");
         deleteMembership.setString(1, fiscalCode);
         int rows = deleteMembership.executeUpdate();
         deleteMembership.close();
 
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return rows > 0;
     }
 
     private void insertExtensionsOfCustomer(String fiscalCode, Membership membership) throws SQLException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement insertExtension = connection.prepareStatement("INSERT INTO memberships_extensions (customer, type, uses) VALUES (?, ?, ?)");
         while (membership instanceof MembershipDecorator) {
             MembershipDecorator membershipDecorator = (MembershipDecorator) membership;
@@ -167,15 +173,15 @@ public class SqlMembershipDAO implements MembershipDAO {
         }
 
         insertExtension.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
     }
 
     private void deleteExtensionsOfCustomer(String fiscalCode) throws SQLException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement deleteExtensions = connection.prepareStatement("DELETE FROM memberships_extensions WHERE customer = ?");
         deleteExtensions.setString(1, fiscalCode);
         deleteExtensions.executeUpdate();
         deleteExtensions.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
     }
 }

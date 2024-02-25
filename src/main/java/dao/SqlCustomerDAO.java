@@ -19,16 +19,18 @@ public class SqlCustomerDAO implements CustomerDAO {
     private final MembershipDAO membershipDAO;
 	private final Logger logger = LogManager.getLogger("SqlCustomerDAO");
 	private MessagesBundle msgB;
+	private dbManager db;
 	
     public SqlCustomerDAO(MembershipDAO membershipDAO) {
         this.membershipDAO = membershipDAO;
         this.msgB = MessagesBundle.getInstance(); 
+        this.db = dbManager.getInstance();
     }
 
     @Override
     public void insert(Customer customer) throws Exception {
     	logger.debug(msgB.GetResourceValue("debug_customer_data_insert")+customer.toString());    	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT INTO customers (fiscal_code, name, surname) VALUES (?, ?, ?)");
         ps.setString(1, customer.getFiscalCode());
         ps.setString(2, customer.getName());
@@ -38,13 +40,13 @@ public class SqlCustomerDAO implements CustomerDAO {
         membershipDAO.insertOfCustomer(customer.getFiscalCode(), customer.getMembership());
 
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
     }
 
     @Override
     public void update(Customer customer) throws Exception {
     	logger.debug(msgB.GetResourceValue("debug_customer_data_update")+customer.toString());    	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE customers SET name = ?, surname = ? WHERE fiscal_code = ?");
         ps.setString(1, customer.getName());
         ps.setString(2, customer.getSurname());
@@ -53,25 +55,25 @@ public class SqlCustomerDAO implements CustomerDAO {
 
         membershipDAO.updateOfCustomer(customer.getFiscalCode(), customer.getMembership());
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
     }
 
     @Override
     public boolean delete(String fiscalCode) throws SQLException {
     	logger.debug(msgB.GetResourceValue("debug_customer_data_delete")+fiscalCode);    	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM customers WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
         int rows = ps.executeUpdate();
 
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return rows > 0;
     }  
        
     @Override
     public Customer get(String fiscalCode) throws SQLException,Exception {    	
-        Connection con = dbManager.getConnection();
+        Connection con = db.getConnection();
         Customer customer = null;
         PreparedStatement ps = con.prepareStatement("SELECT * FROM customers WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
@@ -88,7 +90,7 @@ public class SqlCustomerDAO implements CustomerDAO {
 
         rs.close();
         ps.close();
-        dbManager.closeConnection(con);
+        db.closeConnection(con);
         if(customer!=null)
         	logger.debug(msgB.GetResourceValue("debug_customer_data")+customer.toString());
         else
@@ -99,7 +101,7 @@ public class SqlCustomerDAO implements CustomerDAO {
 
     @Override
     public List<Customer> getAll() throws SQLException,Exception {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         List<Customer> customers = new ArrayList<>();
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM customers");

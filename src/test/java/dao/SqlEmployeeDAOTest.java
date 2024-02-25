@@ -18,13 +18,13 @@ public class SqlEmployeeDAOTest {
     @BeforeAll
     static void initDb() throws SQLException, IOException {
         // Set up database
-    	dbManager.setDatabase("amusementParkTest.db");
+    	dbManager.getInstance().setDatabase("amusementParkTest.db");
         MessagesBundle.getInstance().SetLanguage("it", "IT");    	
     }    
 
     @BeforeEach
     public void init() throws SQLException, IOException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = dbManager.getInstance().getConnection();
         employeeDAO = new SqlEmployeeDAO();
 
         // Clear the "employees" table

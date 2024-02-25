@@ -32,6 +32,7 @@ import util.MessagesBundle;
 public class Main 
 {
 	private static MessagesBundle msgB = MessagesBundle.getInstance();
+	private static dbManager db = dbManager.getInstance();
 	
 	public static void SplashScreen() {
 		logger.info(msgB.GetResourceValue("welcome_messages_p0"));
@@ -41,7 +42,7 @@ public class Main
 	
 	private static void cleanDB() throws Exception 
 	{
-	   Connection connection = dbManager.getConnection();
+	   Connection connection = db.getConnection();
 	   connection.prepareStatement("DELETE FROM memberships").executeUpdate();
          // Clear the "memberships_extensions" table        
        connection.prepareStatement("DELETE FROM memberships_extensions").executeUpdate();
@@ -64,7 +65,7 @@ public class Main
 	private static void Customer() throws Exception 
 	{	    
 		try {
-			dbManager.getConnection();
+			db.getConnection();
 		} catch (SQLException e) {
 			logger.error(e.getMessage());            
 		}
@@ -98,7 +99,7 @@ public class Main
 	private static void Employee() throws Exception 
 	{	    
 		try {
-			dbManager.getConnection();
+			db.getConnection();
 		} catch (SQLException e) {
 			logger.error(e.getMessage());            
 		}
@@ -132,7 +133,7 @@ public class Main
 	private static void Manager() throws Exception 
 	{	    
 		try {
-			dbManager.getConnection();
+			db.getConnection();
 		} catch (SQLException e) {
 			logger.error(e.getMessage());            
 		}
@@ -163,7 +164,7 @@ public class Main
 	private static final Logger logger = LogManager.getLogger("Main");
     public static void main( String[] args ) throws Exception
     {
-		dbManager.setDatabase("amusepark.db");
+		db.setDatabase("amusepark.db");
 		msgB.SetLanguage("it", "IT");    	
         SplashScreen();	       
         cleanDB();		

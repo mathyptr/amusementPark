@@ -33,14 +33,14 @@ class BookingsControllerTest {
     @BeforeAll
     static void initDb() throws SQLException, IOException {
         // Set up database
-    	dbManager.setDatabase("amusementParkTest.db");
+    	dbManager.getInstance().setDatabase("amusementParkTest.db");
         // Set up language    	
         MessagesBundle.getInstance().SetLanguage("it", "IT");
     }
 
     @BeforeEach
     public void init() throws Exception {
-        Connection connection = dbManager.getConnection();
+        Connection connection = dbManager.getInstance().getConnection();
          // Clear the "memberships" table        
         connection.prepareStatement("DELETE FROM memberships").executeUpdate();
           // Clear the "memberships_extensions" table        

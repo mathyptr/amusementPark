@@ -32,14 +32,14 @@ class CustomerControllerTest {
     @BeforeAll
     static void initDb() throws SQLException, IOException {
         // Set up database
-    	dbManager.setDatabase("amusementParkTest.db");
+    	dbManager.getInstance().setDatabase("amusementParkTest.db");
         // Set up language    	
         MessagesBundle.getInstance().SetLanguage("it", "IT");
     }
 
     @BeforeEach
     public void init() throws Exception {
-        Connection connection = dbManager.getConnection();
+        Connection connection = dbManager.getInstance().getConnection();
 
         // Create Customer DAO and Customer Controller
         CustomerDAO customerDAO = new SqlCustomerDAO(new SqlMembershipDAO());

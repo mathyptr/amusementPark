@@ -9,7 +9,7 @@ import java.sql.*;
  * class implements the Singleton pattern.
  */
 public class dbManager {
-    private static String dbName = "amusepark.db";
+    private String dbName = "amusepark.db";
     
     private static dbManager instance = null; 
     // Private constructor (Singleton pattern)
@@ -28,15 +28,15 @@ public class dbManager {
      *
      * @param dbName Name of the database
      */
-    public static void setDatabase(String dbName) {
-    	dbManager.dbName = dbName;
+    public void setDatabase(String dbName) {
+    	this.dbName = dbName;
     }
 
     /**
      * @param dbName Name of the database
      * @return Connection to the SQLite database
      */
-    public static Connection getConnection(String dbName) throws SQLException {
+    public Connection getConnection(String dbName) throws SQLException {
         return DriverManager.getConnection("jdbc:sqlite:" + dbName);
     }
 
@@ -45,7 +45,7 @@ public class dbManager {
      *
      * @return Connection to the SQLite database
      */
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return getConnection(dbName);
     }
 
@@ -54,7 +54,7 @@ public class dbManager {
      *
      * @param connection Connection to close
      */
-    public static void closeConnection(Connection connection) throws SQLException {
+    public void closeConnection(Connection connection) throws SQLException {
         connection.close();
    }
 

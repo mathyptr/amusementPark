@@ -12,7 +12,7 @@ public class dbManagerTest extends TestCase {
     @Test
 	public void testGetInstance_Expect_Success() {
         // Set up database
-    	dbManager.setDatabase("amusementParkTest.db");	
+    	dbManager.getInstance().setDatabase("amusementParkTest.db");	
         Assertions.assertNotNull(dbManager.getInstance());
 	}
 
@@ -22,8 +22,8 @@ public class dbManagerTest extends TestCase {
 	
     @Test
 	public void testGetConnection_Expect_Success()throws SQLException  {
-    	dbManager.setDatabase("amusementParkTest.db");			
-        Assertions.assertDoesNotThrow(() -> dbManager.getConnection()); 		
+    	dbManager.getInstance().setDatabase("amusementParkTest.db");			
+        Assertions.assertDoesNotThrow(() -> dbManager.getInstance().getConnection()); 		
 	}
   
     

@@ -18,16 +18,16 @@ class AttractionControllerTest {
     @BeforeAll
     static void initDb() throws SQLException, IOException {
         // Set up database
-    	dbManager.setDatabase("amusementParkTest.db");
+    	dbManager.getInstance().setDatabase("amusementParkTest.db");
         // Set up language    	
         MessagesBundle.getInstance().SetLanguage("it", "IT");
     }
 
     @BeforeEach
     public void init() throws SQLException, IOException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = dbManager.getInstance().getConnection();
         // Set up database
-    	dbManager.setDatabase("amusementParkTest.db");
+    	dbManager.getInstance().setDatabase("amusementParkTest.db");
         // Clear the "memberships" table        
         connection.prepareStatement("DELETE FROM memberships").executeUpdate();
         // Clear the "memberships_extensions" table        

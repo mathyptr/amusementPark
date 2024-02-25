@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 public class SqlAttractionDAO implements AttractionDAO {
     private final EmployeeDAO employeeDAO;
     private final CustomerDAO customerDAO;
+    private dbManager db;
     
     private MessagesBundle msgB;
 	private final Logger logger = LogManager.getLogger("SqlAttractionDAO");    
@@ -26,11 +27,12 @@ public class SqlAttractionDAO implements AttractionDAO {
         this.employeeDAO = emplyeeDAO;
         this.customerDAO = customerDAO;		
         this.msgB = MessagesBundle.getInstance();
+        this.db = dbManager.getInstance();
     }
 
 //    @Override
     public Attraction get(Integer id) throws SQLException {   	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         Attraction attract = null;
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM attractions WHERE id = ?");
         ps.setInt(1, id);
@@ -52,13 +54,13 @@ public class SqlAttractionDAO implements AttractionDAO {
         rs.close();
         ps.close();
 
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return attract;
     }
 
 //    @Override
     public List<Attraction> getAll() throws SQLException {
-        Connection connection =dbManager.getConnection();
+        Connection connection =db.getConnection();
         List<Attraction> attractions = new ArrayList<>();
         Statement stmt = connection.createStatement();
         
@@ -83,14 +85,14 @@ public class SqlAttractionDAO implements AttractionDAO {
 
         rs.close();
         stmt.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return attractions;
     }
 
     @Override
     public void insert(Attraction attraction) throws SQLException {
     	logger.debug(msgB.GetResourceValue("debug_attraction_data_insert")+attraction.getName());    	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         
         PreparedStatement ps = connection.prepareStatement("INSERT INTO attractions (name, max_capacity, start_date, end_date, employee,description,status) VALUES (?, ?, ?, ?, ?,?,?)");
         // id is auto-incremented, so it's not needed
@@ -105,14 +107,14 @@ public class SqlAttractionDAO implements AttractionDAO {
         ps.executeUpdate();
 
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
       	
     }
 
     @Override
     public void update(Attraction attraction) throws SQLException {
     	logger.debug(msgB.GetResourceValue("debug_attraction_data_update")+attraction.getName());    	    	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE attractions SET name = ?, max_capacity = ?, start_date = ?, end_date = ?, employee = ?, description = ?, status = ? WHERE id = ?");
         ps.setString(1, attraction.getName());
         ps.setInt(2, attraction.getMaxCapacity());
@@ -126,7 +128,7 @@ public class SqlAttractionDAO implements AttractionDAO {
         ps.executeUpdate();
 
         ps.close();
-        dbManager.closeConnection(connection);    	
+        db.closeConnection(connection);    	
     }
 
     @Override
@@ -136,32 +138,32 @@ public class SqlAttractionDAO implements AttractionDAO {
     	Attraction attraction = get(id);
         if (attraction == null) return false;
 
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM attractions WHERE id = ?");
         ps.setInt(1, id);
         int rows = ps.executeUpdate();
 
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return rows > 0;
     }
 
     @Override
     public int getNextID() throws SQLException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT MAX(id) FROM attractions");
         int id = rs.getInt(1) + 1;
 
         rs.close();
         stmt.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return id;
     }
 
     @Override
     public List<Customer> getAttendees(Integer attractionId) throws Exception {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM bookings WHERE attraction = ?");
         ps.setInt(1, attractionId);
         ResultSet rs = ps.executeQuery();
@@ -171,7 +173,7 @@ public class SqlAttractionDAO implements AttractionDAO {
 
         rs.close();
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return customers;
     	
     }
@@ -179,7 +181,7 @@ public class SqlAttractionDAO implements AttractionDAO {
     @Override
     public List<Attraction> getAttractionsForCustomer(String fiscalCode) throws Exception {
         
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM bookings WHERE customer = ?");
         ps.setString(1, fiscalCode);
         ResultSet rs = ps.executeQuery();
@@ -189,7 +191,7 @@ public class SqlAttractionDAO implements AttractionDAO {
 
         rs.close();
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return attractions;       
         
     }
@@ -197,7 +199,7 @@ public class SqlAttractionDAO implements AttractionDAO {
     @Override
     public void addBooking(String fiscalCode, Integer courseId) throws SQLException {
    	
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT OR IGNORE INTO bookings (customer, attraction) VALUES (?, ?)");
         ps.setString(1, fiscalCode);
         ps.setInt(2, courseId);
@@ -209,14 +211,14 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public boolean deleteBooking(String fiscalCode, Integer attractionId) throws SQLException {
-        Connection connection = dbManager.getConnection();
+        Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM bookings WHERE customer = ? AND attraction = ?");
         ps.setString(1, fiscalCode);
         ps.setInt(2, attractionId);
         int rows = ps.executeUpdate();
 
         ps.close();
-        dbManager.closeConnection(connection);
+        db.closeConnection(connection);
         return rows > 0;    	
     }
 }
