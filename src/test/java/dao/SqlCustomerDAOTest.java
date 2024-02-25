@@ -15,6 +15,7 @@ import domainModel.Customer;
 import domainModel.membership.EmptyMembership;
 import domainModel.membership.Membership;
 import domainModel.membership.SilverMembershipDecorator;
+import util.MessagesBundle;
 
 
 public class SqlCustomerDAOTest {
@@ -24,6 +25,7 @@ public class SqlCustomerDAOTest {
     static void initDb() throws SQLException, IOException {
         // Set up database 	
     	dbManager.setDatabase("amusementParkTest.db");
+        MessagesBundle.SetLanguage("it", "IT");    	
     }    
 
     @BeforeEach

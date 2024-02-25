@@ -22,14 +22,14 @@ class AttractionTest {
     	Mockito.when(employeeMock.getFiscalCode()).thenReturn("MRRSML01");
         Assertions.assertThrows(
             IllegalArgumentException.class,
-            () -> new Attraction(0, "ABC", 10, LocalDateTime.now(), LocalDateTime.now().minusMinutes(1), employeeMock.getFiscalCode(),"ABC"),
+            () -> new Attraction(0, "Drones", 10, LocalDateTime.now(), LocalDateTime.now().minusMinutes(1), employeeMock.getFiscalCode(),"Drones","ok"),
             "Expected constructor to throw, but it didn't"
         );
 
         LocalDateTime d = LocalDateTime.now();
         Assertions.assertThrows(
             IllegalArgumentException.class,
-            () -> new Attraction(0, "A", 10, d, d, employeeMock.getFiscalCode(),"A"),
+            () -> new Attraction(0, "Euphoria", 10, d, d, employeeMock.getFiscalCode(),"Euphoria","ok"),
             "Expected constructor to throw, but it didn't"
         );
     }

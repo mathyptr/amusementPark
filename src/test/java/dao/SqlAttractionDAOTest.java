@@ -1,6 +1,8 @@
 package dao;
 
 import domainModel.Attraction;
+import util.MessagesBundle;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +22,7 @@ public class SqlAttractionDAOTest {
     static void initDb() throws SQLException, IOException {
         // Set up database
     	dbManager.setDatabase("amusementParkTest.db");
+        MessagesBundle.SetLanguage("it", "IT");
     }
 
     @BeforeEach
@@ -36,8 +39,8 @@ public class SqlAttractionDAOTest {
         connection.prepareStatement("DELETE FROM attractions").executeUpdate();
         
         // Insert some test data
-        connection.prepareStatement("INSERT INTO attractions values (1,'Starlight',50, '01/01/2023 08:00','31/12/2023 18:00','PTRMTH') ").executeUpdate();
-        connection.prepareStatement("INSERT INTO attractions values (2,'Madness',60,'01/02/2023 08:00','01/11/2023 18:00','PTRMTH')").executeUpdate();
+        connection.prepareStatement("INSERT INTO attractions values (1,'Starlight',50, '01/01/2023 08:00','31/12/2023 18:00','PTRMTH','Starlight','ok') ").executeUpdate();
+        connection.prepareStatement("INSERT INTO attractions values (2,'Madness',60,'01/02/2023 08:00','01/11/2023 18:00','PTRMTH','Madness','ok')").executeUpdate();
     }
 
     @Test
@@ -64,14 +67,14 @@ public class SqlAttractionDAOTest {
     	LocalDateTime start_date,end_date; 	
     	start_date=LocalDateTime.now().plusMonths(1) ;
     	end_date=LocalDateTime.now().plusMonths(4);
-    	Attraction attraction = new Attraction(3,"Blackout",100,start_date,end_date,"PTRMTH","Blackout");
+    	Attraction attraction = new Attraction(3,"Blackout",100,start_date,end_date,"PTRMTH","Blackout","ok");
         Assertions.assertDoesNotThrow(() -> attractionDAO.insert(attraction));
         Assertions.assertEquals(3, attractionDAO.getAll().size());
     }
 
     @Test
     public void When_UpdateAttraction_Expect_Success() throws SQLException {
-    	Attraction attraction = new Attraction(2,"Hysteria",90,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4),"PTRMTH","Hysteria");
+    	Attraction attraction = new Attraction(2,"Hysteria",90,LocalDateTime.now().plusMonths(1) ,LocalDateTime.now().plusMonths(4),"PTRMTH","Hysteria","ok");
     	Assertions.assertDoesNotThrow(() -> attractionDAO.update(attraction));
         Assertions.assertEquals(2, attractionDAO.getAll().size());
         Assertions.assertEquals("Hysteria", attractionDAO.get(2).getName());

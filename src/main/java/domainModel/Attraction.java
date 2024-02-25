@@ -1,6 +1,5 @@
 package domainModel;
 
-import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -20,7 +19,7 @@ public class Attraction {
     private final LocalDateTime endDate;
     private final String employeeFiscalCode;
 	private final Logger logger = LogManager.getLogger("Attraction.class");    
-//    private final Employee employee;  
+
     
     public Attraction(int id, String name, int maxCapacity, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description, String status) {
 

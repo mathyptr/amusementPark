@@ -20,23 +20,23 @@ class SilverMembershipDecoratorTest {
     } 	
     @Test
     public void when_checkingIsValidForInterval_With_goodInterval_Expect_toReturnTrue() {
-        Membership m = new SilverMembershipDecorator(new EmptyMembership(LocalDate.now(), LocalDate.now().plusYears(1)));
-
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        LocalDate startDate = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();       
         LocalDateTime start = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        Assertions.assertTrue(m.isValidForInterval(start, start.plusHours(1)));
+        Membership membership = new SilverMembershipDecorator(new EmptyMembership(startDate, startDate.plusYears(1)));
+        Assertions.assertTrue(membership.isValidForInterval(start, start.plusHours(1)));
     }
 
     @Test
     public void when_checkingIsValidForInterval_With_badInterval_Expect_toReturnFalse() {
-        Membership m = new SilverMembershipDecorator(new EmptyMembership(LocalDate.now(), LocalDate.now().plusYears(1)));
-
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
         LocalDateTime start = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
+        Membership m = new SilverMembershipDecorator(new EmptyMembership(LocalDate.now(), LocalDate.now().plusYears(1)));
+        
         Assertions.assertFalse(m.isValidForInterval(start, start.plusHours(1)));
 
     }

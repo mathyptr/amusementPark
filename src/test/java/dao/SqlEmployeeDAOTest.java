@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import domainModel.Employee;
+import util.MessagesBundle;
 
 public class SqlEmployeeDAOTest {
     private SqlEmployeeDAO employeeDAO;
@@ -18,6 +19,7 @@ public class SqlEmployeeDAOTest {
     static void initDb() throws SQLException, IOException {
         // Set up database
     	dbManager.setDatabase("amusementParkTest.db");
+        MessagesBundle.SetLanguage("it", "IT");    	
     }    
 
     @BeforeEach

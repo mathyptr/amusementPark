@@ -94,8 +94,7 @@ public class SqlAttractionDAO implements AttractionDAO {
         ps.setInt(2, attraction.getMaxCapacity());
         ps.setString(3, dataTimeFormat.format(attraction.getStartDate()));
         ps.setString(4, dataTimeFormat.format(attraction.getEndDate()));
-        ps.setString(5, attraction.getEmployeeFiscalCode());
-        
+        ps.setString(5, attraction.getEmployeeFiscalCode());        
         ps.setString(6,attraction.getDescription());
         ps.setString(7,attraction.getStatus());
         
@@ -116,11 +115,9 @@ public class SqlAttractionDAO implements AttractionDAO {
         ps.setString(3, dataTimeFormat.format(attraction.getStartDate()));
         ps.setString(4, dataTimeFormat.format(attraction.getEndDate()));
         ps.setString(5, attraction.getEmployeeFiscalCode());
-        ps.setInt(6, attraction.getId());
-        
         ps.setString(6,attraction.getDescription());
-        ps.setString(7,attraction.getStatus());
- 
+        ps.setString(7,attraction.getStatus());       
+        ps.setInt(8, attraction.getId());     
         
         ps.executeUpdate();
 

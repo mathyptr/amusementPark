@@ -178,7 +178,6 @@ class BookingsControllerTest {
 
         // Test if the membership is valid on next Sunday
         c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY); // Sunday of the current week
-        // 
         c.add(Calendar.DATE, 7);
         LocalDateTime weekendDay = c.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 

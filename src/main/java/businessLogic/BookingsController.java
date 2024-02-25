@@ -28,32 +28,31 @@ public class BookingsController {
      * Books an attraction for the given customer
     */
     public void bookAttraction(String customerFiscalCode, int attractionId) throws Exception {
-        MessagesBundle msgB = MessagesBundle.getInstance();    	
-    	Attraction c = attractionsController.getAttraction(attractionId);
+        Attraction c = attractionsController.getAttraction(attractionId);
         Customer customer = customersController.getPerson(customerFiscalCode);
               
-        if (c == null) throw new RuntimeException( msgB.GetResourceValue("Attraction_ID_not_valid"));
-        if (customer == null) throw new RuntimeException(msgB.GetResourceValue("Customer_Not_found"));
+        if (c == null) throw new RuntimeException( MessagesBundle.GetResourceValue("Attraction_ID_not_valid"));
+        if (customer == null) throw new RuntimeException(MessagesBundle.GetResourceValue("Customer_Not_found"));
 
         List<Customer> attendees = attractionsDAO.getAttendees(attractionId);
         if (attendees.size() == c.getMaxCapacity())
-            throw new RuntimeException(msgB.GetResourceValue("Attraction_Full"));
+            throw new RuntimeException(MessagesBundle.GetResourceValue("Attraction_Full"));
         if (attendees.contains(customer))
-            throw new RuntimeException(msgB.GetResourceValue("Customer_already_booked_attraction"));
+            throw new RuntimeException(MessagesBundle.GetResourceValue("Customer_already_booked_attraction"));
 
         getBookingsForCustomer(customerFiscalCode).forEach(attraction -> {
             LocalDateTime c1 = attraction.getStartDate().truncatedTo(ChronoUnit.HOURS);
             LocalDateTime c2 = c.getStartDate().truncatedTo(ChronoUnit.HOURS);
             if (c1.equals(c2))
-                throw new RuntimeException(msgB.GetResourceValue("Customer_booked_attraction_same_time"));
+                throw new RuntimeException(MessagesBundle.GetResourceValue("Customer_booked_attraction_same_time"));
         });
 
         if (customer.getMembership()==null)
-             throw new RuntimeException(msgB.GetResourceValue("User_membership_null"));	
+             throw new RuntimeException(MessagesBundle.GetResourceValue("User_membership_null"));	
         if (customer.getMembership().isExpired())
-            throw new RuntimeException(msgB.GetResourceValue("User_membership_expired"));
+            throw new RuntimeException(MessagesBundle.GetResourceValue("User_membership_expired"));
         if (!customer.getMembership().isValidForInterval(c.getStartDate(), c.getEndDate()))
-            throw new RuntimeException(msgB.GetResourceValue("User_membership_not_valid"));
+            throw new RuntimeException(MessagesBundle.GetResourceValue("User_membership_not_valid"));
 
         // Update membership (update uses field)
         membershipDAO.updateOfCustomer(customer.getFiscalCode(), customer.getMembership());
@@ -65,32 +64,31 @@ public class BookingsController {
      * Books an attraction for the given customer
          */
     public void checkBookAttraction(String customerFiscalCode, int attractionId) throws Exception {
-        MessagesBundle msgB = MessagesBundle.getInstance();    	
-    	Attraction c = attractionsController.getAttraction(attractionId);
+        Attraction c = attractionsController.getAttraction(attractionId);
         Customer customer = customersController.getPerson(customerFiscalCode);
               
-        if (c == null) throw new RuntimeException( msgB.GetResourceValue("Attraction_ID_not_valid"));
-        if (customer == null) throw new RuntimeException(msgB.GetResourceValue("Customer_Not_found"));
+        if (c == null) throw new RuntimeException( MessagesBundle.GetResourceValue("Attraction_ID_not_valid"));
+        if (customer == null) throw new RuntimeException(MessagesBundle.GetResourceValue("Customer_Not_found"));
 
         List<Customer> attendees = attractionsDAO.getAttendees(attractionId);
         if (attendees.size() == c.getMaxCapacity())
-            throw new RuntimeException(msgB.GetResourceValue("Attraction_Full"));
+            throw new RuntimeException(MessagesBundle.GetResourceValue("Attraction_Full"));
         if (attendees.contains(customer))
-            throw new RuntimeException(msgB.GetResourceValue("Customer_already_booked_attraction"));
+            throw new RuntimeException(MessagesBundle.GetResourceValue("Customer_already_booked_attraction"));
 
         getBookingsForCustomer(customerFiscalCode).forEach(attraction -> {
             LocalDateTime c1 = attraction.getStartDate().truncatedTo(ChronoUnit.HOURS);
             LocalDateTime c2 = c.getStartDate().truncatedTo(ChronoUnit.HOURS);
             if (c1.equals(c2))
-                throw new RuntimeException(msgB.GetResourceValue("Customer_booked_attraction_same_time"));
+                throw new RuntimeException(MessagesBundle.GetResourceValue("Customer_booked_attraction_same_time"));
         });
         
         if (customer.getMembership()==null)
-            throw new RuntimeException(msgB.GetResourceValue("User_membership_null"));        	
+            throw new RuntimeException(MessagesBundle.GetResourceValue("User_membership_null"));        	
         if (customer.getMembership().isExpired())
-            throw new RuntimeException(msgB.GetResourceValue("User_membership_expired"));
+            throw new RuntimeException(MessagesBundle.GetResourceValue("User_membership_expired"));
         if (!customer.getMembership().isValidForInterval(c.getStartDate(), c.getEndDate()))
-            throw new RuntimeException(msgB.GetResourceValue("User_membership_not_valid"));
+            throw new RuntimeException(MessagesBundle.GetResourceValue("User_membership_not_valid"));
 
      }  
     
