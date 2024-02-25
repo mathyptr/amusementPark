@@ -35,7 +35,7 @@ class BookingsControllerTest {
         // Set up database
     	dbManager.setDatabase("amusementParkTest.db");
         // Set up language    	
-        MessagesBundle.SetLanguage("it", "IT");
+        MessagesBundle.getInstance().SetLanguage("it", "IT");
     }
 
     @BeforeEach

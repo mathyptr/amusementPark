@@ -31,12 +31,13 @@ import util.MessagesBundle;
  */
 public class Main 
 {
+	private static MessagesBundle msgB = MessagesBundle.getInstance();
+	
 	public static void SplashScreen() {
-		logger.info(MessagesBundle.GetResourceValue("welcome_messages_p0"));
-		logger.info(MessagesBundle.GetResourceValue("welcome_messages_p1"));	
-		logger.info(MessagesBundle.GetResourceValue("welcome_messages_p2"));	
+		logger.info(msgB.GetResourceValue("welcome_messages_p0"));
+		logger.info(msgB.GetResourceValue("welcome_messages_p1"));	
+		logger.info(msgB.GetResourceValue("welcome_messages_p2"));	
 	}
-
 	
 	private static void cleanDB() throws Exception 
 	{
@@ -77,8 +78,8 @@ public class Main
 		AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
 		BookingsController bookingsController = new BookingsController(attractionController, customersController, attractionDAO, membershipDAO);
 		String customerCF="MRRSML01";
-		logger.info(MessagesBundle.GetResourceValue("client_messages_p0")+customersController.getPerson(customerCF).getName());
-		logger.info(MessagesBundle.GetResourceValue("client_messages_p1"));
+		logger.info(msgB.GetResourceValue("client_messages_p0")+customersController.getPerson(customerCF).getName());
+		logger.info(msgB.GetResourceValue("client_messages_p1"));
 		
 		List<Attraction> listAttract = attractionController.getAll();
 		int nmaxAttraction=0;
@@ -87,11 +88,11 @@ public class Main
         	nmaxAttraction++;
         }
         
-		logger.info(MessagesBundle.GetResourceValue("client_messages_p2"));        
+		logger.info(msgB.GetResourceValue("client_messages_p2"));        
 		bookingsController.bookAttraction(customerCF, listAttract.get(0).getId());
 		bookingsController.bookAttraction("MRRSML02", listAttract.get(1).getId());
 	
-		logger.info(MessagesBundle.GetResourceValue("client_messages_p3"));
+		logger.info(msgB.GetResourceValue("client_messages_p3"));
 	}
 
 	private static void Employee() throws Exception 
@@ -111,19 +112,19 @@ public class Main
 		AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
 
 		String employeeCF="PTRMTH01";
-		logger.info(MessagesBundle.GetResourceValue("employee_messages_p0")+employeesController.getPerson(employeeCF).getName());
-		logger.info(MessagesBundle.GetResourceValue("employee_messages_p1"));
+		logger.info(msgB.GetResourceValue("employee_messages_p0")+employeesController.getPerson(employeeCF).getName());
+		logger.info(msgB.GetResourceValue("employee_messages_p1"));
 
 		List<Attraction> listAttract = attractionController.getAll();
 		int nmaxAttraction=0;
         for (Attraction attract : listAttract) {        	
     		logger.info(attract.getId()+": "+attract.getName());
         	if(attract.getEmployeeFiscalCode().equals(employeeCF))
-        		logger.info(MessagesBundle.GetResourceValue("employee_messages_p2"));
+        		logger.info(msgB.GetResourceValue("employee_messages_p2"));
         	nmaxAttraction++;
         }
              
-		logger.info(MessagesBundle.GetResourceValue("employee_messages_p3"));
+		logger.info(msgB.GetResourceValue("employee_messages_p3"));
 	}
 		
 	
@@ -162,9 +163,8 @@ public class Main
 	private static final Logger logger = LogManager.getLogger("Main");
     public static void main( String[] args ) throws Exception
     {
-		MessagesBundle msgB = MessagesBundle.getInstance(); 	
 		dbManager.setDatabase("amusepark.db");
-		MessagesBundle.SetLanguage("it", "IT");    	
+		msgB.SetLanguage("it", "IT");    	
         SplashScreen();	       
         cleanDB();		
         Manager();

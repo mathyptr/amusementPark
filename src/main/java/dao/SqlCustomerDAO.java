@@ -14,19 +14,20 @@ import org.apache.logging.log4j.Logger;
 import domainModel.Customer;
 import util.MessagesBundle;
 
-
 public class SqlCustomerDAO implements CustomerDAO {
 
     private final MembershipDAO membershipDAO;
 	private final Logger logger = LogManager.getLogger("SqlCustomerDAO");
+	private MessagesBundle msgB;
 	
     public SqlCustomerDAO(MembershipDAO membershipDAO) {
         this.membershipDAO = membershipDAO;
+        this.msgB = MessagesBundle.getInstance(); 
     }
 
     @Override
     public void insert(Customer customer) throws Exception {
-    	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data_insert")+customer.toString());    	
+    	logger.debug(msgB.GetResourceValue("debug_customer_data_insert")+customer.toString());    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT INTO customers (fiscal_code, name, surname) VALUES (?, ?, ?)");
         ps.setString(1, customer.getFiscalCode());
@@ -42,7 +43,7 @@ public class SqlCustomerDAO implements CustomerDAO {
 
     @Override
     public void update(Customer customer) throws Exception {
-    	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data_update")+customer.toString());    	
+    	logger.debug(msgB.GetResourceValue("debug_customer_data_update")+customer.toString());    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE customers SET name = ?, surname = ? WHERE fiscal_code = ?");
         ps.setString(1, customer.getName());
@@ -57,7 +58,7 @@ public class SqlCustomerDAO implements CustomerDAO {
 
     @Override
     public boolean delete(String fiscalCode) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data_delete")+fiscalCode);    	
+    	logger.debug(msgB.GetResourceValue("debug_customer_data_delete")+fiscalCode);    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM customers WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
@@ -89,9 +90,9 @@ public class SqlCustomerDAO implements CustomerDAO {
         ps.close();
         dbManager.closeConnection(con);
         if(customer!=null)
-        	logger.debug(MessagesBundle.GetResourceValue("debug_customer_data")+customer.toString());
+        	logger.debug(msgB.GetResourceValue("debug_customer_data")+customer.toString());
         else
-        	logger.debug(MessagesBundle.GetResourceValue("Customer_Not_found")+fiscalCode);        
+        	logger.debug(msgB.GetResourceValue("Customer_Not_found")+fiscalCode);        
         
         return customer;
     }

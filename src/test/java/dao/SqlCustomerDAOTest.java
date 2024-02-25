@@ -25,7 +25,7 @@ public class SqlCustomerDAOTest {
     static void initDb() throws SQLException, IOException {
         // Set up database 	
     	dbManager.setDatabase("amusementParkTest.db");
-        MessagesBundle.SetLanguage("it", "IT");    	
+        MessagesBundle.getInstance().SetLanguage("it", "IT");    	
     }    
 
     @BeforeEach

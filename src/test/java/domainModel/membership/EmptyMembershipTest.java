@@ -14,7 +14,7 @@ class EmptyMembershipTest {
     @BeforeAll
     static void setLanguage() {
         // Set up language
-        MessagesBundle.SetLanguage("it", "IT");
+        MessagesBundle.getInstance().SetLanguage("it", "IT");
     }  	
     
     @Test

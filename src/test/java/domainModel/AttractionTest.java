@@ -14,7 +14,7 @@ class AttractionTest {
     @BeforeAll
     static void setLanguage() {
         // Set up language
-        MessagesBundle.SetLanguage("it", "IT");
+        MessagesBundle.getInstance().SetLanguage("it", "IT");
     } 	
     @Test
     public void When_CreatingNewAttraction_With_InvalidDates_Expect_IllegalArgumentException() {

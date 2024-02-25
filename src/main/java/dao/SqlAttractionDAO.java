@@ -14,14 +14,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SqlAttractionDAO implements AttractionDAO {
-    private final EmployeeDAO emplyeeDAO;
+    private final EmployeeDAO employeeDAO;
     private final CustomerDAO customerDAO;
+    
+    private MessagesBundle msgB;
 	private final Logger logger = LogManager.getLogger("SqlAttractionDAO");    
     private static final String TimeFormat = "dd/MM/yyyy HH:mm";
     DateTimeFormatter dataTimeFormat = DateTimeFormatter.ofPattern(TimeFormat);
-	public SqlAttractionDAO(EmployeeDAO emplyeeDAO, CustomerDAO customerDAO) {
-        this.emplyeeDAO = emplyeeDAO;
+	
+    public SqlAttractionDAO(EmployeeDAO emplyeeDAO, CustomerDAO customerDAO) {
+        this.employeeDAO = emplyeeDAO;
         this.customerDAO = customerDAO;		
+        this.msgB = MessagesBundle.getInstance();
     }
 
 //    @Override
@@ -85,7 +89,7 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public void insert(Attraction attraction) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("debug_attraction_data_insert")+attraction.getName());    	
+    	logger.debug(msgB.GetResourceValue("debug_attraction_data_insert")+attraction.getName());    	
         Connection connection = dbManager.getConnection();
         
         PreparedStatement ps = connection.prepareStatement("INSERT INTO attractions (name, max_capacity, start_date, end_date, employee,description,status) VALUES (?, ?, ?, ?, ?,?,?)");
@@ -107,7 +111,7 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public void update(Attraction attraction) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("debug_attraction_data_update")+attraction.getName());    	    	
+    	logger.debug(msgB.GetResourceValue("debug_attraction_data_update")+attraction.getName());    	    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE attractions SET name = ?, max_capacity = ?, start_date = ?, end_date = ?, employee = ?, description = ?, status = ? WHERE id = ?");
         ps.setString(1, attraction.getName());
@@ -127,7 +131,7 @@ public class SqlAttractionDAO implements AttractionDAO {
 
     @Override
     public boolean delete(Integer id) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("debug_attraction_data_delete")+Integer.toString(id));    	
+    	logger.debug(msgB.GetResourceValue("debug_attraction_data_delete")+Integer.toString(id));    	
     	
     	Attraction attraction = get(id);
         if (attraction == null) return false;

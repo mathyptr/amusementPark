@@ -11,9 +11,15 @@ import org.apache.logging.log4j.Logger;
 
 public class SqlEmployeeDAO implements EmployeeDAO {
 	private final Logger logger = LogManager.getLogger("SqlEmployeeDAO");
+	private MessagesBundle msgB;
+	
+	public SqlEmployeeDAO() {
+        this.msgB = MessagesBundle.getInstance(); 
+    }
+	
     @Override
     public void insert(Employee employee) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data_insert")+employee.toString());    	
+    	logger.debug(msgB.GetResourceValue("debug_employee_data_insert")+employee.toString());    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT INTO employees (fiscal_code, name, surname, salary) VALUES (?, ?, ?, ?)");
         ps.setString(1, employee.getFiscalCode());
@@ -27,7 +33,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
 
     @Override
     public void update(Employee employee) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data_update")+employee.toString());    	
+    	logger.debug(msgB.GetResourceValue("debug_employee_data_update")+employee.toString());    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("UPDATE employees SET name = ?, surname = ?, salary = ? WHERE fiscal_code = ?");
         ps.setString(1, employee.getName());
@@ -41,7 +47,7 @@ public class SqlEmployeeDAO implements EmployeeDAO {
 
     @Override
     public boolean delete(String fiscalCode) throws SQLException {
-    	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data_delete")+fiscalCode);    	
+    	logger.debug(msgB.GetResourceValue("debug_employee_data_delete")+fiscalCode);    	
         Connection connection = dbManager.getConnection();
         PreparedStatement ps = connection.prepareStatement("DELETE FROM employees WHERE fiscal_code = ?");
         ps.setString(1, fiscalCode);
@@ -71,9 +77,9 @@ public class SqlEmployeeDAO implements EmployeeDAO {
         ps.close();
         dbManager.closeConnection(con);
         if(employee!=null)
-        	logger.debug(MessagesBundle.GetResourceValue("debug_employee_data")+employee.toString());
+        	logger.debug(msgB.GetResourceValue("debug_employee_data")+employee.toString());
         else
-        	logger.debug(MessagesBundle.GetResourceValue("Employee_Not_found")+fiscalCode);        
+        	logger.debug(msgB.GetResourceValue("Employee_Not_found")+fiscalCode);        
         return employee;
     }
 
@@ -93,7 +99,5 @@ public class SqlEmployeeDAO implements EmployeeDAO {
             ));
         }
         return employees;
-    }    
-    
-    
+    }
 }

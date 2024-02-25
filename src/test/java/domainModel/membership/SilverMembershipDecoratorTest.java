@@ -16,7 +16,7 @@ class SilverMembershipDecoratorTest {
     @BeforeAll
     static void setLanguage() {
         // Set up language
-        MessagesBundle.SetLanguage("it", "IT");
+        MessagesBundle.getInstance().SetLanguage("it", "IT");
     } 	
     @Test
     public void when_checkingIsValidForInterval_With_goodInterval_Expect_toReturnTrue() {

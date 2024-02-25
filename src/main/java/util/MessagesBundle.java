@@ -12,15 +12,15 @@ import java.util.ResourceBundle;
  */
 
 public class MessagesBundle {
-    private static Locale currentLocale;
-    private static  ResourceBundle messages;
-    private static MessagesBundle instance = null;     
+    private Locale currentLocale;
+    private ResourceBundle messages;
 
     // Private constructor (Singleton pattern)
     private MessagesBundle() {}    
     
+    private static MessagesBundle instance = null;     
     public static MessagesBundle getInstance() {
-        // Create the object only if there's not an istance:
+        // Create the object only if there's not an instance:
         if (instance == null) {
             instance = new MessagesBundle();
         }
@@ -33,19 +33,20 @@ public class MessagesBundle {
 	 * @param language String
 	 * @param country  String
 	 */
-    public static void SetLanguage(String language, String country) {
-    currentLocale = new Locale(language, country);
-    messages = ResourceBundle.getBundle("language.MessagesBundle", currentLocale);
+    public void SetLanguage(String language, String country) {
+	    currentLocale = new Locale(language, country);
+	    messages = ResourceBundle.getBundle("language.MessagesBundle", currentLocale);
     }
+    
     /**
 	 * Get the key's label
 	 * 
 	 * @param value String
 	 * @return the key
 	 */
-    public static String GetResourceKey(String value) {
+    public String GetResourceKey(String value) {
     	String key="";
-		Enumeration  bundleKeys= messages.getKeys();
+		Enumeration bundleKeys= messages.getKeys();
 	    while (bundleKeys.hasMoreElements()) {
 	         key = (String)bundleKeys.nextElement();
 	         if(messages.getString(key).equals(value))
@@ -60,9 +61,7 @@ public class MessagesBundle {
 	 * @param key String
 	 * @return the label
 	 */
-    public static String GetResourceValue(String key) {
+    public String GetResourceValue(String key) {
     	return messages.getString(key);
-	 
     }
-
 }

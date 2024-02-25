@@ -6,15 +6,16 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import util.MessagesBundle;
 
 /**
  * Decorator that lets the membership be valid on Saturday and Sunday
  */
 public class SilverMembershipDecorator extends MembershipDecorator {
-    int uses;
+    private int uses;
     private final float silverPrice = 80;
-	private final Logger logger = LogManager.getLogger("SilverMembershipDecorator");
+	
+    private final Logger logger = LogManager.getLogger("SilverMembershipDecorator");
+	
     public SilverMembershipDecorator(Membership membership) {
         super(membership);
     }
@@ -37,7 +38,6 @@ public class SilverMembershipDecorator extends MembershipDecorator {
         
     @Override
     public String getUsesDescription() {
-        MessagesBundle msgB = MessagesBundle.getInstance();      	
         return super.getUsesDescription() + msgB.GetResourceValue("Silver_uses") + uses + ", ";
     }    
 
@@ -51,7 +51,7 @@ public class SilverMembershipDecorator extends MembershipDecorator {
         if (!this.isDateIntervalValid(start, end)) return false;
         boolean isCurrTrue = (isOnWeekend(start) && isOnWeekend(end)); 
         if (isCurrTrue) uses++;
-        else logger.debug(MessagesBundle.GetResourceValue("Memership_Not_Valid_For_Interval")+"("+start.toString()+","+end.toString()+")");
+        else logger.debug(msgB.GetResourceValue("Membership_Not_Valid_For_Interval")+"("+start.toString()+","+end.toString()+")");
         return super.isValidForInterval(start, end) || isCurrTrue;
     }
     

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+import util.MessagesBundle;
+
 /**
  * Abstract membership decorator
  */
@@ -11,6 +13,9 @@ public abstract class MembershipDecorator implements Membership {
 
     /** Membership to decorate */
     protected final Membership membership;
+    
+    /** Class to handle localization */
+    protected MessagesBundle msgB;
 
     /**
      * Constructs a new membership
@@ -18,6 +23,7 @@ public abstract class MembershipDecorator implements Membership {
      */
     public MembershipDecorator(Membership membership) {
         this.membership = membership;
+        this.msgB = MessagesBundle.getInstance();
     }
 
     @Override
@@ -59,12 +65,7 @@ public abstract class MembershipDecorator implements Membership {
     public HashMap<String, Integer> getUses() {
         return this.membership.getUses();
     }
-
-/*    @Override    
-    public void setUses(int uses) {
-
-    }   
-*/    
+   
     @Override
     public float getPrice() {
         return this.membership.getPrice();

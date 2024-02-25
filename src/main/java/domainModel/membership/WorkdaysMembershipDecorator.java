@@ -7,13 +7,12 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import util.MessagesBundle;
-
 /**
  * Decorator that lets the membership be valid in workdays
  */
 public class WorkdaysMembershipDecorator extends MembershipDecorator {
-    int uses;
+    private int uses;
+
 	private final Logger logger = LogManager.getLogger("MembershipDecorator");
 	
     public WorkdaysMembershipDecorator(Membership membership) {
@@ -30,7 +29,7 @@ public class WorkdaysMembershipDecorator extends MembershipDecorator {
         if (!this.isDateIntervalValid(start, end)) return false;
         boolean isCurrTrue = (isOnWeekdays(start) && isOnWeekdays(end));
         if (isCurrTrue) uses++;
-        else logger.debug(MessagesBundle.GetResourceValue("Memership_Not_Valid_For_Interval")+"("+start.toString()+","+end.toString()+")");        
+        else logger.debug(msgB.GetResourceValue("Membership_Not_Valid_For_Interval")+"("+start.toString()+","+end.toString()+")");        
         return super.isValidForInterval(start, end) || isCurrTrue;
     }
 
@@ -40,8 +39,7 @@ public class WorkdaysMembershipDecorator extends MembershipDecorator {
     }
 
     @Override
-    public String getUsesDescription() {
-        MessagesBundle msgB = MessagesBundle.getInstance();    
+    public String getUsesDescription() { 
         return super.getUsesDescription() + msgB.GetResourceValue("Workdays_uses") + uses + ", ";
     }
 
@@ -58,11 +56,5 @@ public class WorkdaysMembershipDecorator extends MembershipDecorator {
     @Override
     public int getLocalUses() {
         return uses;
-    }
-
-/*    @Override
-    public void setUses(int uses) {
-    	this.uses = uses;
-    }    
-*/        
+    } 
 }

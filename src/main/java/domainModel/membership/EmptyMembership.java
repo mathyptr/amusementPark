@@ -60,10 +60,6 @@ public class EmptyMembership implements Membership {
         return "";
     }
     
-/*    public void setUses(int uses) {
-
-    }
-*/
     @Override
     public HashMap<String, Integer> getUses() {
         return uses;
