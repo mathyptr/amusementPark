@@ -35,27 +35,7 @@ public class SqlMembershipDAO implements MembershipDAO {
 		
 		return type;		
 	}
-	
-	
-	
-	private Membership membershipStringToTypeOld(Membership membership, String type)
-	{
-		//Membership membership = null;
-		try {
-			if(type.equals("workdays"))
-				membership= (WorkdaysMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,0);
-			else if (type.equals("silver"))
-				membership=(SilverMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,0);
-			else if (type.equals("gold"))
-				membership=(GoldMembershipDecorator.class).getConstructor(Membership.class, int.class).newInstance(membership,0);			
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}			
-		return membership;		
-	}
-
+		
 	private Class<? extends Membership> membershipStringToType(Membership membership, String type)
 	{
 		Class<? extends Membership> mClassConstruct = null;
@@ -75,31 +55,23 @@ public class SqlMembershipDAO implements MembershipDAO {
 
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM memberships WHERE customer = ?");
         ps.setString(1, fiscalCode);
-        ResultSet rs = ps.executeQuery();
-        
-        
+        ResultSet rs = ps.executeQuery();               
 
         if (rs.next()) {
             membership = new EmptyMembership(
             		LocalDate.parse(rs.getString("valid_from"),dataTimeFormat),
             		LocalDate.parse(rs.getString("valid_until"),dataTimeFormat)
             		);
-//            membership = new EmptyMembership(LocalDate.parse(rs.getString("valid_from")),LocalDate.parse(rs.getString("valid_until")));
+            
             PreparedStatement ps2 = connection.prepareStatement("SELECT * FROM memberships_extensions WHERE customer = ?");
             ps2.setString(1, fiscalCode);
             ResultSet rs2 = ps2.executeQuery();
 
             while (rs2.next()) {
-                try {
-//                    membership = membershipStringToType.get(rs2.getString("type")).getConstructor(Membership.class, int.class).newInstance(membership, rs2.getInt("uses"));
-//                	membership = membershipStringToType(membership,rs2.getString("type"));
-//                	membership.setUses(rs2.getInt("uses"));
-                	
+                try {                	
                 	Class<? extends Membership> membership1;
                 	membership1 =   membershipStringToType(membership,rs2.getString("type"));
-                	membership=		membership1.getConstructor(Membership.class, int.class).newInstance(membership, rs2.getInt("uses"));
-                	
-                	
+                	membership  =	membership1.getConstructor(Membership.class, int.class).newInstance(membership, rs2.getInt("uses"));              	                	
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -120,8 +92,8 @@ public class SqlMembershipDAO implements MembershipDAO {
         Connection connection = db.getConnection();
         PreparedStatement insertMembership = connection.prepareStatement("INSERT INTO memberships (customer, valid_from, valid_until) VALUES (?, ?, ?)");
         insertMembership.setString(1, fiscalCode);
-        insertMembership.setString(2, dataTimeFormat.format(membership.getValidFrom()));//.toString());
-        insertMembership.setString(3, dataTimeFormat.format(membership.getValidUntil()));//.toString());
+        insertMembership.setString(2, dataTimeFormat.format(membership.getValidFrom()));
+        insertMembership.setString(3, dataTimeFormat.format(membership.getValidUntil()));
         insertMembership.executeUpdate();
         insertMembership.close();
 
@@ -134,8 +106,8 @@ public class SqlMembershipDAO implements MembershipDAO {
     public void updateOfCustomer(String fiscalCode, Membership membership) throws SQLException {
         Connection connection = db.getConnection();
         PreparedStatement updateMembership = connection.prepareStatement("UPDATE memberships SET valid_from = ?, valid_until = ? WHERE customer = ?");
-        updateMembership.setString(1, dataTimeFormat.format(membership.getValidFrom()));//.toString());
-        updateMembership.setString(2, dataTimeFormat.format(membership.getValidUntil()));//.toString());
+        updateMembership.setString(1, dataTimeFormat.format(membership.getValidFrom()));
+        updateMembership.setString(2, dataTimeFormat.format(membership.getValidUntil()));
         updateMembership.setString(3, fiscalCode);
         updateMembership.executeUpdate();
         updateMembership.close();
@@ -165,7 +137,6 @@ public class SqlMembershipDAO implements MembershipDAO {
             MembershipDecorator membershipDecorator = (MembershipDecorator) membership;
 
             insertExtension.setString(1, fiscalCode);
-//mathy            insertExtension.setString(2, membershipTypeToString.get(membership.getClass()));
             insertExtension.setString(2, membershipTypeToString(membership));            
             insertExtension.setInt(3, membershipDecorator.getLocalUses());
             insertExtension.executeUpdate();

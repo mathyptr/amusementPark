@@ -22,7 +22,7 @@ public class Attraction {
 	private final Logger logger = LogManager.getLogger("Attraction.class");    
 
     
-    public Attraction(int id, String name, int maxCapacity, int andrenaline, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description, String status) {
+    public Attraction(int id, String name, int maxCapacity, int adrenaline, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description, String status) {
 
         this.employeeFiscalCode = employeeFiscalCode;
     	

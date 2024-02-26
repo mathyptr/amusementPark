@@ -2,7 +2,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +21,6 @@ import dao.SqlCustomerDAO;
 import dao.SqlEmployeeDAO;
 import dao.dbManager;
 import domainModel.Attraction;
-import domainModel.Customer;
 import util.MessagesBundle;
 
 /**
@@ -85,7 +83,7 @@ public class Main
 		List<Attraction> listAttract = attractionController.getAll();
 		int nmaxAttraction=0;
         for (Attraction attract : listAttract) {
-        	logger.info(attract.getId()+": "+attract.getName());
+        	logger.info(attract.getId()+") "+attract.getName()+" "+msgB.GetResourceValue("attraction_level")+attract.getAdrenaline());
         	nmaxAttraction++;
         }
         
@@ -108,7 +106,6 @@ public class Main
 		CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
 		AttractionDAO attractionDAO = new SqlAttractionDAO(employeeDAO, customerDAO);        
 
-		CustomersController customersController = new CustomersController(customerDAO);
 		EmployeesController employeesController = new EmployeesController(employeeDAO);        
 		AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
 
@@ -119,9 +116,9 @@ public class Main
 		List<Attraction> listAttract = attractionController.getAll();
 		int nmaxAttraction=0;
         for (Attraction attract : listAttract) {        	
-    		logger.info(attract.getId()+": "+attract.getName());
+    		logger.info(attract.getId()+": "+attract.getName()+" "+attract.getDescription());
         	if(attract.getEmployeeFiscalCode().equals(employeeCF))
-        		logger.info(msgB.GetResourceValue("employee_messages_p2"));
+        		logger.info(msgB.GetResourceValue("employee_messages_p2")+attract.getName());
         	nmaxAttraction++;
         }
              
@@ -146,19 +143,20 @@ public class Main
 		CustomersController customersController = new CustomersController(customerDAO);
 		EmployeesController employeesController = new EmployeesController(employeeDAO);        
 		AttractionsController attractionController = new AttractionsController(employeesController, attractionDAO);
-		BookingsController bookingsController = new BookingsController(attractionController, customersController, attractionDAO, membershipDAO);
-
 		employeesController.addPerson("Mathy", "Pat", "PTRMTH01", 1150);
 		employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
 
     // Add an attraction
-		int attraction1=attractionController.addAttraction("Pressure", 10, 4, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01","Pressure");
-		int attraction2=attractionController.addAttraction("Supremacy", 10, 2, LocalDateTime.now(), LocalDateTime.now().plusHours(6), "PTRMTH02","Supremacy");
-		int attraction3=attractionController.addAttraction("Uprising", 10,  10, LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(44), "PTRMTH01","Uprising");
+		int attraction1=attractionController.addAttraction("Supremacy", 10, 4, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01",msgB.GetResourceValue("attraction_desc1"));
+		int attraction2=attractionController.addAttraction("Madness", 10, 2, LocalDateTime.now(), LocalDateTime.now().plusHours(6), "PTRMTH02",msgB.GetResourceValue("attraction_desc2"));
+		int attraction3=attractionController.addAttraction("Pressure", 10,  10, LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(44), "PTRMTH01",msgB.GetResourceValue("attraction_desc3"));
+		logger.info(msgB.GetResourceValue("manager_messages_p0"));
 		customersController.addPerson( "Samu","Marr", "MRRSML01", new String[]{"workdays","silver"}, LocalDate.now().plusYears(1));
-		customersController.addPerson( "Sam","Mar", "MRRSML02", new String[]{"workdays"}, LocalDate.now().plusYears(1));
-       	
+		customersController.addPerson( "Sam","Mar", "MRRSML02", new String[]{"workdays"}, LocalDate.now().plusYears(1));      	
+		logger.info(msgB.GetResourceValue("manager_messages_p1"));
 		logger.info(customersController.getPerson("MRRSML01"));	
+		logger.info(customersController.getPerson("MRRSML02"));	
+		logger.info(msgB.GetResourceValue("manager_messages_p2"));
  }	
 	
 	private static final Logger logger = LogManager.getLogger("Main");

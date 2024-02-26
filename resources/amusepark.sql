@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS customers
     surname     TEXT NOT NULL
 );
 
--- Table: employees
+-- Table: employes
 CREATE TABLE IF NOT EXISTS employees
 (
     fiscal_code TEXT PRIMARY KEY,
@@ -26,18 +26,18 @@ CREATE TABLE IF NOT EXISTS employees
 );
 
 -- Table: attractions
-CREATE TABLE IF NOT EXISTS attractions
-(
-    id           INTEGER PRIMARY KEY AUTOINCREMENT,
-    name         TEXT    NOT NULL,
-    max_capacity INTEGER NOT NULL,
-    adrenaline 	 INTEGER NOT NULL,
-    start_date   TEXT    NOT NULL,
-    end_date     TEXT    NOT NULL,
-    employee      TEXT    NOT NULL,
-    description      TEXT    NOT NULL,
-    status      TEXT    NOT NULL,    
-    FOREIGN KEY (employee) REFERENCES employees (fiscal_code) ON UPDATE CASCADE ON DELETE CASCADE
+CREATE TABLE attractions (
+	id	INTEGER,
+	name	TEXT NOT NULL,
+	max_capacity	INTEGER NOT NULL,
+	adrenaline	INTEGER NOT NULL,
+	start_date	TEXT NOT NULL,
+	end_date	TEXT NOT NULL,
+	employee	TEXT NOT NULL,
+	description	TEXT NOT NULL,
+	status	TEXT NOT NULL,
+	FOREIGN KEY(employee) REFERENCES employees(fiscal_code) ON UPDATE CASCADE ON DELETE CASCADE,
+	PRIMARY KEY(id AUTOINCREMENT)
 );
 
 -- Table: memberships
@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS memberships_extensions
     FOREIGN KEY (customer) REFERENCES tickets (customer) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+
 -- Table: bookings
 CREATE TABLE IF NOT EXISTS bookings
 (
@@ -70,8 +71,8 @@ CREATE TABLE IF NOT EXISTS bookings
     FOREIGN KEY (customer) REFERENCES customers (fiscal_code) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO employees VALUES ('PTRMTH','Mathilde','PAT',10000);
-INSERT INTO employees VALUES ('PTRMTH01','Mathy','Pat',1150.0);
-INSERT INTO employees VALUES ('MRRSML','Sam','Mar',1250.0);
-INSERT INTO attractions VALUES (1,'Starlight',100,25,'01-01-2023','31-12-2023','MRRSML','Starlight','ok');
-INSERT INTO attractions VALUES (2,'Pressure',10,10,'25/02/2024 13:35','25/02/2024 14:35','PTRMTH01','Pressure','ok');
+
+
+
+insert into employees values ('PTRMTH','Mathilde','PAT',10000);
+insert into attractions values (1,'Starlight',100,'01-01-2023','31-12-2023',1,'Starlight','ok');

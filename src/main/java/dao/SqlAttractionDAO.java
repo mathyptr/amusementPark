@@ -63,9 +63,7 @@ public class SqlAttractionDAO implements AttractionDAO {
     public List<Attraction> getAll() throws SQLException {
         Connection connection =db.getConnection();
         List<Attraction> attractions = new ArrayList<>();
-        Statement stmt = connection.createStatement();
-        
-//        DateTimeFormatter df = DateTimeFormatter.ofPattern(TimeFormat);
+        Statement stmt = connection.createStatement();     
         
         ResultSet rs = stmt.executeQuery("SELECT * FROM attractions");
 

@@ -29,13 +29,7 @@ public class SilverMembershipDecorator extends MembershipDecorator {
     public int getLocalUses() {
         return uses;
     }    
-    
-/*    @Override
-    public void setUses(int uses) {
-    	this.uses = uses;
-    } 
-*/    
-        
+           
     @Override
     public String getUsesDescription() {
         return super.getUsesDescription() + msgB.GetResourceValue("Silver_uses") + uses + ", ";
