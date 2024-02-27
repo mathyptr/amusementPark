@@ -28,7 +28,12 @@ public class BookingsController {
 
     /**
      * Books an attraction for the given customer
-    */
+     *
+     * @param customerFiscalCode The fiscal code of the customer for whom to book the attraction for
+     * @param courseId           The attraction id to book
+     *
+     * @throws Exception when attractionId doesn't exist and bubbles up exceptions
+     */
     public void bookAttraction(String customerFiscalCode, int attractionId) throws Exception {
         Attraction c = attractionsController.getAttraction(attractionId);
         Customer customer = customersController.getPerson(customerFiscalCode);
@@ -63,8 +68,13 @@ public class BookingsController {
     }
 
     /**
-     * Books an attraction for the given customer
-         */
+     * Check an attraction for the given customer
+     *
+     * @param customerFiscalCode The fiscal code of the customer for whom to check the attraction for
+     * @param courseId           The attraction id to book
+     *
+     * @throws Exception when attractionId doesn't exist and bubbles up exceptions
+     */
     public void checkBookAttraction(String customerFiscalCode, int attractionId) throws Exception {
         Attraction c = attractionsController.getAttraction(attractionId);
         Customer customer = customersController.getPerson(customerFiscalCode);
@@ -96,14 +106,27 @@ public class BookingsController {
     
     /**
      * Deletes a booking for the given customer
-   */
+     *
+     * @param customerFiscalCode The fiscal code of the customer for whom to remove the booking
+     * @param attractionId           The Attraction id to remove
+     *
+     * @return true if successful, false otherwise (i.e. customer not found in Attraction or attractionId not exiting)
+     *
+     * @throws Exception bubbles up exceptions
+    */
     public boolean deleteAttractionBooking(String customerFiscalCode, int attractionId) throws Exception {
         return attractionsDAO.deleteBooking(customerFiscalCode, attractionId);
     }
 
     /**
-     * Returns a list of the attractions that the given user booked
-      */
+     * Returns a list of the Attractions that the given user booked
+     *
+     * @param customerFiscalCode The fiscal code of the customer
+     *
+     * @return A list of Attractions that the given user booked
+     *
+     * @throws Exception bubbles up exceptions
+     */
     public List<Attraction> getBookingsForCustomer(String customerFiscalCode) throws Exception {
         return attractionsDAO.getAttractionsForCustomer(customerFiscalCode);
     }
