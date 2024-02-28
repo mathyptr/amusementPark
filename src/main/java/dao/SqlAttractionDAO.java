@@ -199,12 +199,12 @@ public class SqlAttractionDAO implements AttractionDAO {
     }
 
     @Override
-    public void addBooking(String fiscalCode, Integer courseId) throws SQLException {
+    public void addBooking(String fiscalCode, Integer attractionId) throws SQLException {
    	
         Connection connection = db.getConnection();
         PreparedStatement ps = connection.prepareStatement("INSERT OR IGNORE INTO bookings (customer, attraction) VALUES (?, ?)");
         ps.setString(1, fiscalCode);
-        ps.setInt(2, courseId);
+        ps.setInt(2, attractionId);
         ps.executeUpdate();
 
         ps.close();

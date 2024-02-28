@@ -61,9 +61,9 @@ public class AttractionsController {
      * @param maxCapacity       The maximum attendees for the Attraction
      * @param startDate         The start date of the Attraction
      * @param endDate           The end date of the Attraction
-     * @param trainerFiscalCode The fiscal code of the trainer for the Attraction
+     * @param employeeFiscalCode The fiscal code of the trainer for the Attraction
      *
-     * @return The id of the newly created course
+     * @return The id of the newly created attraction
      *
      * @throws Exception If the employee is not found, bubbles up exceptions
      * @throws IllegalArgumentException If the employee is already occupied in the given time range

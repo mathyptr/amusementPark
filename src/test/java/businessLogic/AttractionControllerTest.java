@@ -45,7 +45,7 @@ class AttractionControllerTest {
     
     
     @Test
-    void When_AddingCourse_With_OccupiedEmployee_Expect_IllegalArgumentException() throws Exception {
+    void When_AddingAttraction_With_OccupiedEmployee_Expect_IllegalArgumentException() throws Exception {
         // Create DAOs
         SqlCustomerDAO customerDAO = new SqlCustomerDAO(new SqlMembershipDAO());
         EmployeeDAO employeeDAO = new SqlEmployeeDAO();

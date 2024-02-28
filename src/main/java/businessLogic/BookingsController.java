@@ -30,7 +30,7 @@ public class BookingsController {
      * Books an attraction for the given customer
      *
      * @param customerFiscalCode The fiscal code of the customer for whom to book the attraction for
-     * @param courseId           The attraction id to book
+     * @param attractionId  The attraction id to book
      *
      * @throws Exception when attractionId doesn't exist and bubbles up exceptions
      */
@@ -71,7 +71,7 @@ public class BookingsController {
      * Check an attraction for the given customer
      *
      * @param customerFiscalCode The fiscal code of the customer for whom to check the attraction for
-     * @param courseId           The attraction id to book
+     * @param attractionId The attraction id to book
      *
      * @throws Exception when attractionId doesn't exist and bubbles up exceptions
      */
