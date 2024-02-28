@@ -90,9 +90,14 @@ public class Main
         
 		logger.info(msgB.GetResourceValue("client_messages_p2"));        
 		bookingsController.bookAttraction(customerCF, listAttract.get(0).getId());
-		bookingsController.bookAttraction("MRRSML02", listAttract.get(1).getId());
-	
-		logger.info(msgB.GetResourceValue("client_messages_p3"));
+			
+        for (Attraction attract : listAttract) {
+    		try {
+            	bookingsController.checkBookAttraction(customerCF, attract.getId());
+            	logger.info(msgB.GetResourceValue("client_messages_p3")+attract.getName());
+    		} catch(Exception e) {
+    		}        	
+        }		
 	}
 
 	private static void Employee() throws Exception 
@@ -148,15 +153,15 @@ public class Main
 		employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
 
     // Add an attraction
-		int attraction1=attractionController.addAttraction("Supremacy", 10, 4, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01",msgB.GetResourceValue("attraction_desc1"));
+		int attraction1=attractionController.addAttraction("Supremacy", 10, 4, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(3), "PTRMTH01",msgB.GetResourceValue("attraction_desc1"));
 		int attraction2=attractionController.addAttraction("Madness", 10, 2, LocalDateTime.now(), LocalDateTime.now().plusHours(6), "PTRMTH02",msgB.GetResourceValue("attraction_desc2"));
-		int attraction3=attractionController.addAttraction("Pressure", 10,  10, LocalDateTime.now().plusHours(3), LocalDateTime.now().plusHours(44), "PTRMTH01",msgB.GetResourceValue("attraction_desc3"));
+		int attraction3=attractionController.addAttraction("Pressure", 10,  10, LocalDateTime.now().plusHours(4), LocalDateTime.now().plusHours(44), "PTRMTH01",msgB.GetResourceValue("attraction_desc3"));
 		logger.info(msgB.GetResourceValue("manager_messages_p0"));
 		customersController.addPerson( "Samu","Marr", "MRRSML01", new String[]{"workdays","silver"}, LocalDate.now().plusYears(1));
 		customersController.addPerson( "Sam","Mar", "MRRSML02", new String[]{"workdays"}, LocalDate.now().plusYears(1));      	
 		logger.info(msgB.GetResourceValue("manager_messages_p1"));
-		logger.info(customersController.getPerson("MRRSML01"));	
-		logger.info(customersController.getPerson("MRRSML02"));	
+		logger.info(employeesController.getPerson("PTRMTH01").getName()+" "+employeesController.getPerson("PTRMTH01").getSurname());	
+		logger.info(employeesController.getPerson("PTRMTH02").getName()+" "+employeesController.getPerson("PTRMTH02").getSurname());
 		logger.info(msgB.GetResourceValue("manager_messages_p2"));
  }	
 	

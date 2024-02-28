@@ -5,6 +5,10 @@
 			<PatternLayout
 				pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n" />
 		</Console>
+		<Console name="Console1" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{HH:mm:ss}  - %msg%n" />
+		</Console>		
 		<File name="MyLog" fileName="allLOG.log">
 			<PatternLayout
 				pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n" />
@@ -12,7 +16,7 @@
 	</Appenders>
 	<Loggers>
 		<Root level="info">
-			<AppenderRef ref="Console" />
+			<AppenderRef ref="Console1" />
 			<AppenderRef ref="MyLog" />
 		</Root>
 	</Loggers>
