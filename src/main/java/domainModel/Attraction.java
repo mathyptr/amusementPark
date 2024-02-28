@@ -3,9 +3,6 @@ package domainModel;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import util.MessagesBundle;
 
 
@@ -18,8 +15,7 @@ public class Attraction {
     private int adrenaline;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
-    private final String employeeFiscalCode;
-	private final Logger logger = LogManager.getLogger("Attraction.class");    
+    private final String employeeFiscalCode;   
 
     
     public Attraction(int id, String name, int maxCapacity, int adrenaline, LocalDateTime startDate, LocalDateTime endDate, String employeeFiscalCode, String description, String status) {
