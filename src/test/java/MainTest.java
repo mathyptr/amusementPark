@@ -1,38 +1,22 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
+import businessLogic.BookingsController;
+import domainModel.Customer;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-/**
- * Unit test for simple App.
- */
-public class MainTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public MainTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( MainTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+class MainTest {
+    		
+    @Test
+    public void When_deleteAttractionBooking_Expect_Success() throws Exception { 
+	
+    	Customer customerMock = Mockito.mock(Customer.class);
+		BookingsController bookingsControllerMock = Mockito.mock(BookingsController.class);
+    	
+    	Mockito.when(customerMock.getFiscalCode()).thenReturn("PTRMTH01");			
+    	Mockito.when(bookingsControllerMock.deleteAttractionBooking(Mockito.anyString(),Mockito.anyInt())).thenReturn(true);
+    	
+        Assertions.assertTrue(bookingsControllerMock.deleteAttractionBooking(customerMock.getFiscalCode(),1));
+	}	
+    
 }

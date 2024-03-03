@@ -53,14 +53,6 @@ class CustomerControllerTest {
         // Clear the "customers" table
         connection.prepareStatement("DELETE FROM customers").executeUpdate();
         
-        // Insert some test data
-/*        connection.prepareStatement("INSERT INTO customers values ('MRRSML01','Samuele','Marr') ").executeUpdate();
-        connection.prepareStatement("INSERT INTO memberships values ('MRRSML01','01/01/2023','31/12/2023') ").executeUpdate();
-        connection.prepareStatement("INSERT INTO memberships_extensions values ('MRRSML01','silver',0) ").executeUpdate();
-        connection.prepareStatement("INSERT INTO customers values ('MRRSML02','Sam','Marr')").executeUpdate();
-        connection.prepareStatement("INSERT INTO memberships values ('MRRSML02','01/01/2023','31/12/2023') ").executeUpdate();
-        connection.prepareStatement("INSERT INTO memberships_extensions values ('MRRSML02','silver',0) ").executeUpdate();
-        */
         // Create test data (insert a customer)
         String TimeFormat = "dd/MM/yyyy";
         DateTimeFormatter dataTimeFormat = DateTimeFormatter.ofPattern(TimeFormat);

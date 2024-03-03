@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -77,12 +76,6 @@ class BookingsControllerTest {
         employeesController.addPerson("Mathy", "Pat", "PTRMTH01", 1150);
         employeesController.addPerson("Mat", "Pa", "PTRMTH02", 1250);
 
-        String[] membershipclient; 
-        if (LocalDateTime.now().getDayOfWeek() == DayOfWeek.SATURDAY || LocalDateTime.now().getDayOfWeek() == DayOfWeek.SUNDAY)
-        	membershipclient=new String[]{"silver"};
-        else
-        	membershipclient=new String[]{"workdays"};        	
-//        testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", membershipclient, LocalDate.now().plusYears(100));
         testCustomerFiscalCode = customersController.addPerson("Ma", "Patr", "PTRMTH03", new String[]{"workdays","silver"}, LocalDate.now().plusYears(100));        
         testattraction1Id = attractionsController.addAttraction("Starlight", 10, 5, LocalDateTime.now(), LocalDateTime.now().plusHours(1), "PTRMTH01","Starlight");
         testattraction2Id = attractionsController.addAttraction("Madness", 10, 8, LocalDateTime.now().plusHours(2), LocalDateTime.now().plusHours(4), "PTRMTH01","Madness");

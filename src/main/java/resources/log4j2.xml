@@ -7,17 +7,22 @@
 		</Console>
 		<Console name="Console1" target="SYSTEM_OUT">
 			<PatternLayout
-				pattern="%d{HH:mm:ss}  - %msg%n" />
+				pattern="%d{HH:mm:ss.SSS} %logger{36} - %msg%n" />
 		</Console>		
 		<File name="MyLog" fileName="allLOG.log">
 			<PatternLayout
 				pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n" />
 		</File>
+		
+		<File name="MyLogHTML" fileName="allLOG.html">
+			<HtmlLayout datePattern="ISO8601" timezone="GMT+0"/>
+		</File>	
 	</Appenders>
 	<Loggers>
-		<Root level="info">
-			<AppenderRef ref="Console1" />
+		<Root level="debug">
+			<AppenderRef ref="Console" />
 			<AppenderRef ref="MyLog" />
-		</Root>
+			<AppenderRef ref="MyLogHTML" />		
+		</Root>		
 	</Loggers>
 </Configuration>
