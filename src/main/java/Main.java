@@ -63,11 +63,7 @@ public class Main
 	}
 	private static void Customer() throws Exception 
 	{	    
-		try {
-			db.getConnection();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());            
-		}
+
 		MembershipDAO membershipDAO = new SqlMembershipDAO();
 		EmployeeDAO employeeDAO= new SqlEmployeeDAO();      
 		CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
@@ -102,11 +98,7 @@ public class Main
 
 	private static void Employee() throws Exception 
 	{	    
-		try {
-			db.getConnection();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());            
-		}
+
 		MembershipDAO membershipDAO = new SqlMembershipDAO();
 		EmployeeDAO employeeDAO= new SqlEmployeeDAO();      
 		CustomerDAO customerDAO = new SqlCustomerDAO(membershipDAO);        
